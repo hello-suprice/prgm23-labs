@@ -13,7 +13,7 @@ def geometrisk_summa(g1, q, n):
     Beräknar summan av en geometrisk talföljd med det första termvärdet g_1,
     kvoten q mellan termerna och antalet termer n, enligt formeln för geometrisk summa.
     '''
-    summa = g1 * (((g1 * q**(n-1)) - 1) / (q - 1))
+    summa = g1 * (((g1 * q**(n-1)) - 1) / (q - 1)) #Formeln för geometrisk summa med geometrisk följd för sista talet i följden
     return summa
 
 # Användaren matar in värden:
@@ -25,6 +25,7 @@ n1 = int(input("Ange antalet termer (n) för den aritmetiska talföljden: \n"))
 aritmetisk_resultat = aritmetisk_summa(a1, d, n1)
 print("Den aritmetiska summan är: ", aritmetisk_resultat)
 
+# Användaren matar in värden:
 g1 = float(input("Ange det första värdet (g_1) för den geometriska talföljden: \n"))
 q = float(input("Ange kvoten (q) för den geometriska talföljden: \n"))
 n2 = int(input("Ange antalet termer (n) för den geometriska talföljden: \n"))
