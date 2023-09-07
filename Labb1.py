@@ -32,5 +32,3 @@ antal_element_geometrisk = int(input("Ange antalet elementer för den geometrisk
 geometrisk_resultat = geometrisk_summa(start_värde_geometrisk, kvot, antal_element_geometrisk)
 print("Den geometriska summan är: ", geometrisk_resultat)
 
-    
-  
