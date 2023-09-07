@@ -14,22 +14,21 @@ def geometrisk_summa(g1, q, n):
     summa = ( g1 * ((q**(n)) - 1) / (q - 1)) #Formeln för geometrisk summa med geometrisk följd för sista elementet i följden
     return summa
 
-# Användaren matar in värden:
+# Användaren matar in värden för aritmetiska summan:
 start_värde_aritmetisk = float(input("Ange det första värdet för den geometriska talföljden: \n"))
 diffrens = float(input("Ange differensen för den aritmetiska talföljden: \n"))
 antalet_element_aritmetisk = int(input("Ange antalet elementer för den aritmetiska talföljden: \n"))
 
-# Beräkna och skriv ut resultaten
+# Beräkna och skriv ut resultaten för aritmetiska summan
 aritmetisk_resultat = aritmetisk_summa(start_värde_aritmetisk, diffrens, antalet_element_aritmetisk)
 print("Den aritmetiska summan är: ", aritmetisk_resultat)
 
-# Användaren matar in värden:
+# Användaren matar in värden för geometriska summan:
 start_värde_geometrisk = float(input("Ange det första värdet för den geometriska talföljden: \n"))
 kvot = float(input("Ange kvoten för den geometriska talföljden: \n"))
 antal_element_geometrisk = int(input("Ange antalet elementer för den geometriska talföljden: \n"))
 
-
-# Beräkna och skriv ut resultaten
+# Beräkna och skriv ut resultaten för geometriska summan:
 geometrisk_resultat = geometrisk_summa(start_värde_geometrisk, kvot, antal_element_geometrisk)
 print("Den geometriska summan är: ", geometrisk_resultat)
 
