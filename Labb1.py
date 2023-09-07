@@ -15,7 +15,7 @@ def geometrisk_summa(g1, q, n):
     return summa
 
 # Användaren matar in värden för aritmetiska summan:
-start_värde_aritmetisk = float(input("Ange det första värdet för den geometriska talföljden: \n"))
+start_värde_aritmetisk = float(input("Ange det första värdet för den aritmetiska talföljden: \n"))
 diffrens = float(input("Ange differensen för den aritmetiska talföljden: \n"))
 antalet_element_aritmetisk = int(input("Ange antalet elementer för den aritmetiska talföljden: \n"))
 
