@@ -69,8 +69,8 @@ def meny():
                 '''
                 Felhantering för användarinput om den första summan i menyval 3.
                 Om användaren inte anger 'a' eller 'g', oavsett om det är med stora bokstäver 
-                eftersom jag använder mig av lower() som omvandlar det till litenbokstav. 
-                Vilket visas ett felmeddelande och loopen fortsätter.
+                eftersom kommer det visa ett felmeddelande och låta loopen fortsätta 
+                sin exekvering.
                 '''
                 
                 if summa1 == 'a':
