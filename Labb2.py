@@ -68,9 +68,8 @@ def meny():
                     continue
                 '''
                 Felhantering för användarinput om den första summan i menyval 3.
-                Om användaren inte anger 'a' eller 'g', oavsett om det är med stora bokstäver 
-                eftersom kommer det visa ett felmeddelande och låta loopen fortsätta 
-                sin exekvering.
+                Om användaren inte anger 'a' eller 'g', oavsett om det är med stora bokstäver. 
+                Kommer det visa ett felmeddelande och låta loopen fortsätta sin exekvering.
                 '''
                 
                 if summa1 == 'a':
