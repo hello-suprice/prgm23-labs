@@ -22,7 +22,7 @@ def meny():
     '''
 
 
-    print("Meny:\n1.Räkna ut aritmetisk summa\n2.Räkna ut geometriskt summa.\n3.Jämför två summor. \n4.Avsluta")
+    print("Meny:\n1.Räkna ut aritmetisk summa\n2.Räkna ut geometriskt summa.\n3.Jämför två summor. \n4.Avsluta \n ")
     val = int(input("Vad vill du göra?"))
     while val != 4:
         if val == 1:
@@ -36,7 +36,7 @@ def meny():
                 
                 # Beräkna och skriv ut resultaten för aritmetiska summan
                 aritmetisk_resultat = aritmetisk_summa(start_värde_aritmetisk, diffrens, antalet_element_aritmetisk)
-                print("Den aritmetiska summan är: ", aritmetisk_resultat)
+                print("Den aritmetiska summan är: ", aritmetisk_resultat, "\n")
 
             except:
                 print("Något gick fel. Försök igen med giltiga värden. \n")
@@ -111,6 +111,7 @@ def meny():
                 
             except ValueError:
                 print("Felaktig inmatning. Var vänlig mata in numeriska värden igen. \n")
+                continue
 
         else:
             print("Felaktigt val! Välj en siffra mellan 1 och 4. \n")
