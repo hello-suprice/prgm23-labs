@@ -41,17 +41,18 @@ def meny():
     för att beräkna aritmetiska och geometriska summor samt jämföra två summor.
     '''
 
+
     print("Meny:\n1.Räkna ut aritmetisk summa\n2.Räkna ut geometriskt summa.\n3.Jämför två summor. \n4.Avsluta \n ")
-    val = int(input("Vad vill du göra?"))
+    val = läs_in_heltal("Vad vill du göra?")
     while val != 4:
         if val == 1:
 
             try:
             
                 # Användaren matar in värden för aritmetiska summan:
-                start_värde_aritmetisk = float(input("Ange det första värdet för den aritmetiska talföljden: \n"))
-                diffrens = float(input("Ange differensen för den aritmetiska talföljden: \n"))
-                antalet_element_aritmetisk = int(input("Ange antalet elementer för den aritmetiska talföljden: \n"))
+                start_värde_aritmetisk = läs_in_flyttal("Ange det första värdet för den aritmetiska talföljden: \n")
+                diffrens = läs_in_flyttal("Ange differensen för den aritmetiska talföljden: \n")
+                antalet_element_aritmetisk = läs_in_heltal("Ange antalet elementer för den aritmetiska talföljden: \n")
                 
                 # Beräkna och skriv ut resultaten för aritmetiska summan
                 aritmetisk_resultat = aritmetisk_summa(start_värde_aritmetisk, diffrens, antalet_element_aritmetisk)
@@ -66,9 +67,9 @@ def meny():
             try:
             
                 # Användaren matar in värden för geometriska summan:
-                start_värde_geometrisk = float(input("Ange det första värdet för den geometriska talföljden: \n"))
-                kvot = float(input("Ange kvoten för den geometriska talföljden: \n"))
-                antal_element_geometrisk = int(input("Ange antalet elementer för den geometriska talföljden: \n"))
+                start_värde_geometrisk = läs_in_flyttal("Ange det första värdet för den geometriska talföljden: \n")
+                kvot = läs_in_flyttal("Ange kvoten för den geometriska talföljden: \n")
+                antal_element_geometrisk = läs_in_heltal("Ange antalet elementer för den geometriska talföljden: \n")
 
                 # Beräkna och skriv ut resultaten för geometriska summan:
                 geometrisk_resultat = geometrisk_summa(start_värde_geometrisk, kvot, antal_element_geometrisk)
@@ -135,6 +136,6 @@ def meny():
         else:
             print("Felaktigt val! Välj en siffra mellan 1 och 4. \n")
         
-        val = int(input("Vad vill du göra? \n"))
+        val = läs_in_heltal("Vad vill du göra? \n")
     print("Avslutar \n")
 meny()
