@@ -1,3 +1,21 @@
+def läs_in_flyttal(prompt):
+    while True:
+        try:
+            input_str = input(prompt)
+            värde = float(input_str)
+            return värde
+        except ValueError:
+            print("Det där var inte ett flyttal. Försök igen.")
+
+def läs_in_heltal(prompt):
+    while True:
+        try:
+            input_str = input(prompt)
+            värde = int(input_str)
+            return värde
+        except ValueError:
+            print("Det där var inte ett heltal. Försök igen.")
+
 def aritmetisk_summa(a1, d, n):
     '''
     Beräknar summan av en aritmetisk talföljd med det första elementvärdet a_1,
@@ -14,6 +32,8 @@ def geometrisk_summa(g1, q, n):
     summa = ( g1 * ((q**(n)) - 1) / (q - 1))
     return summa
 
+
+
 def meny():
     
     '''
@@ -21,8 +41,7 @@ def meny():
     för att beräkna aritmetiska och geometriska summor samt jämföra två summor.
     '''
 
-
-    print("Meny:\n 1.Räkna ut aritmetisk summa\n2.Räkna ut geometriskt summa.\n3.Jämför två summor. \n4.Avsluta \n ")
+    print("Meny:\n1.Räkna ut aritmetisk summa\n2.Räkna ut geometriskt summa.\n3.Jämför två summor. \n4.Avsluta \n ")
     val = int(input("Vad vill du göra?"))
     while val != 4:
         if val == 1:
