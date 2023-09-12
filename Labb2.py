@@ -22,7 +22,7 @@ def meny():
     '''
 
 
-    print("Meny:\n1.Räkna ut aritmetisk summa\n2.Räkna ut geometriskt summa.\n3.Jämför två summor. \n4.Avsluta \n ")
+    print("Meny:\n 1.Räkna ut aritmetisk summa\n2.Räkna ut geometriskt summa.\n3.Jämför två summor. \n4.Avsluta \n ")
     val = int(input("Vad vill du göra?"))
     while val != 4:
         if val == 1:
@@ -117,5 +117,5 @@ def meny():
             print("Felaktigt val! Välj en siffra mellan 1 och 4. \n")
         
         val = int(input("Vad vill du göra? \n"))
-    print("Avslutar")
+    print("Avslutar \n")
 meny()
