@@ -44,7 +44,7 @@ def meny():
                         Välkommen till Sum Meny. Välj ett av alternativen nedan:
                 1. Räkna ut aritmetisk summa.                     2. Räkna ut geometrisk summa.
                                          
-                                             3. jämför två summor
+                                             3. Jämför två summor
             ---------------------------------------------------------------------------------------
             """)
 
@@ -98,14 +98,14 @@ def meny():
                 '''
                 
                 if summa1 == 'a':
-                    start_värde_aritmetisk1 = float(input("Skriv in startvärdet (a1): "))
-                    diffrens1 = float(input("Skriv in differensen (d): "))
-                    antalet_element_aritmetisk1 = int(input("Hur många termer (n)? "))
+                    start_värde_aritmetisk1 = float(input("Skriv in startvärdet för det aritmetiska talföljden: "))
+                    diffrens1 = float(input("Skriv in differensen: "))
+                    antalet_element_aritmetisk1 = int(input("Ange antalet elementer för den aritmetiska talföljden: "))
                     resultat1 = aritmetisk_summa(start_värde_aritmetisk1, diffrens1, antalet_element_aritmetisk1)
                 else:
-                    start_värde_geometrisk1 = float(input("Skriv in startvärdet (g1): "))
-                    kvot1 = float(input("Skriv in kvoten (q): "))
-                    antal_element_geometrisk1 = int(input("Hur många termer (n)? "))
+                    start_värde_geometrisk1 = float(input("Skriv in startvärdet för det geometriska talföljden: "))
+                    kvot1 = float(input("Skriv in kvoten: "))
+                    antal_element_geometrisk1 = int(input("Ange antalet elementer för den geometriska talföljden: "))
                     resultat1 = geometrisk_summa(start_värde_geometrisk1, kvot1, antal_element_geometrisk1)
 
                 # Användaren matar in värden för den andra summan
@@ -115,14 +115,14 @@ def meny():
                     continue
                 
                 if summa2 == 'a':
-                    start_värde_aritmetisk2 = float(input("Skriv in startvärdet (a1): "))
-                    diffrens2 = float(input("Skriv in differensen (d): "))
-                    antalet_element_aritmetisk2 = int(input("Hur många termer (n)? \n"))
+                    start_värde_aritmetisk2 = float(input("Skriv in startvärdet för det aritmetiska talföljden: "))
+                    diffrens2 = float(input("Skriv in differensen: "))
+                    antalet_element_aritmetisk2 = int(input("Ange antalet elementer för den aritmetiska talföljden: "))
                     resultat2 = aritmetisk_summa(start_värde_aritmetisk2, diffrens2, antalet_element_aritmetisk2)
                 else:
-                    start_värde_geometrisk2 = float(input("Skriv in startvärdet (g1): "))
-                    kvot2 = float(input("Skriv in kvoten (q): "))
-                    antal_element_geometrisk2 = int(input("Hur många termer (n)? \n"))
+                    start_värde_geometrisk2 = float(input("Skriv in startvärdet för det geometriska talföljden: "))
+                    kvot2 = float(input("Skriv in kvoten: "))
+                    antal_element_geometrisk2 = int(input("Ange antalet elementer för den geometriska talföljden: "))
                     resultat2 = geometrisk_summa(start_värde_geometrisk2, kvot2, antal_element_geometrisk2)
 
                 # Jämför de två summorna
