@@ -1,8 +1,7 @@
 def läs_in_flyttal(prompt):
     while True:
         try:
-            input_str = input(prompt)
-            värde = float(input_str)
+            värde = float(input(prompt))
             return värde
         except ValueError:
             print("Det där var inte ett flyttal. Försök igen.")
@@ -10,8 +9,7 @@ def läs_in_flyttal(prompt):
 def läs_in_heltal(prompt):
     while True:
         try:
-            input_str = input(prompt)
-            värde = int(input_str)
+            värde = int(input(prompt))
             return värde
         except ValueError:
             print("Det där var inte ett heltal. Försök igen.")
@@ -40,10 +38,17 @@ def meny():
     Huvudmeny för programmet som låter användaren välja mellan olika alternativ
     för att beräkna aritmetiska och geometriska summor samt jämföra två summor.
     '''
+    print(
+            """
+                                             --- Meny ---
+                        Välkommen till Sum Meny. Välj ett av alternativen nedan:
+                1. Räkna ut aritmetisk summa.                     2. Räkna ut geometrisk summa.
+                                         
+                                             3. jämför två summor
+            ---------------------------------------------------------------------------------------
+            """)
 
-
-    print("Meny:\n1.Räkna ut aritmetisk summa\n2.Räkna ut geometriskt summa.\n3.Jämför två summor. \n4.Avsluta \n ")
-    val = läs_in_heltal("Vad vill du göra?")
+    val = läs_in_heltal("Vad vill du göra? ")
     while val != 4:
         if val == 1:
 
@@ -136,6 +141,6 @@ def meny():
         else:
             print("Felaktigt val! Välj en siffra mellan 1 och 4. \n")
         
-        val = läs_in_heltal("Vad vill du göra? \n")
+        val = läs_in_heltal("Vad vill du göra? ")
     print("Avslutar \n")
 meny()
