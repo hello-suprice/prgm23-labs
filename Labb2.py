@@ -1,3 +1,9 @@
+'''
+Kopiera denna länk för att komma åt koden än från kth grejen, det blir lättare:
+https://codeshare.io/Qn3KwR
+'''
+
+
 def läs_in_flyttal(prompt):
     '''
     Läser in ett flyttal från användaren med angivet prompt.
