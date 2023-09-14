@@ -8,7 +8,7 @@ def läs_in_flyttal(prompt):
             '''
             En sträng som innehåller meddelandet som visas för användaren för att instruera dem att mata in ett flyttal.
             '''
-            return värde #Funktionen returnerar det inmatade flyttalet som en flyttalsvariabel (float). 
+            return värde 
         except ValueError:
             print("Det där var inte ett flyttal. Försök igen.")
             '''
@@ -26,7 +26,7 @@ def läs_in_heltal(prompt):
             '''
             En sträng som innehåller meddelandet som visas för användaren för att instruera dem att mata in ett heltal.
             '''
-            return värde #Funktionen returnerar det inmatade heltalet som en heltalsvariabel (int). 
+            return värde 
         except ValueError:
             print("Det där var inte ett heltal. Försök igen.") 
             '''
@@ -61,7 +61,7 @@ def meny():
     print(
             """
                                              --- Meny ---
-                        Välkommen till Sum Meny. Välj ett av alternativen nedan:
+                        Välkommen till Summa Meny. Välj ett av alternativen nedan:
                 1. Räkna ut aritmetisk summa.                     2. Räkna ut geometrisk summa.
                                          
                 3. Jämför två summor                              4. Avsluta.
