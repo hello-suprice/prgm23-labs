@@ -64,7 +64,7 @@ def meny():
                         Välkommen till Sum Meny. Välj ett av alternativen nedan:
                 1. Räkna ut aritmetisk summa.                     2. Räkna ut geometrisk summa.
                                          
-                                             3. Jämför två summor
+                3. Jämför två summor                              4. Avsluta.
             ---------------------------------------------------------------------------------------
             """)
 
@@ -78,14 +78,12 @@ def meny():
             '''
             Val 1 kommer räkna ut aritmetiska summan
             '''
-
-            
             # Användaren matar in värden för aritmetiska summan:
             start_värde_aritmetisk = läs_in_flyttal("Ange det första värdet för den aritmetiska talföljden: \n")
             diffrens = läs_in_flyttal("Ange differensen för den aritmetiska talföljden: \n")
             antalet_element_aritmetisk = läs_in_heltal("Ange antalet elementer för den aritmetiska talföljden: \n")
                 
-            # Beräkna och skriv ut resultaten för aritmetiska summan
+            # Beräknar och skriver ut resultaten för aritmetiska summan
             aritmetisk_resultat = aritmetisk_summa(start_värde_aritmetisk, diffrens, antalet_element_aritmetisk)
             print("Den aritmetiska summan är: ", aritmetisk_resultat, "\n")
 
@@ -95,14 +93,12 @@ def meny():
             '''
             Val 2 kommer räkna ut geometriska summan.
             '''
-
-            
             # Användaren matar in värden för geometriska summan:
             start_värde_geometrisk = läs_in_flyttal("Ange det första värdet för den geometriska talföljden: \n")
             kvot = läs_in_flyttal("Ange kvoten för den geometriska talföljden: \n")
             antal_element_geometrisk = läs_in_heltal("Ange antalet elementer för den geometriska talföljden: \n")
 
-            # Beräkna och skriv ut resultaten för geometriska summan:
+            # Beräknar och skriver ut resultaten för geometriska summan:
             geometrisk_resultat = geometrisk_summa(start_värde_geometrisk, kvot, antal_element_geometrisk)
             print("Den geometriska summan är: ", geometrisk_resultat)
         
@@ -113,7 +109,6 @@ def meny():
             antingen artimetisk och geometrisk eller två av samma. 
             '''
             
-            # Användaren matar in värden för den första summan
             summa1 = input("Är den första summan [a]ritmetisk eller [g]eometrisk? ").lower()
             if summa1 not in ('a', 'g'):
                 print("Ogiltigt val. Var vänlig välj 'a' för aritmetisk eller 'g' för geometrisk.")
@@ -123,47 +118,84 @@ def meny():
             Om användaren inte anger 'a' eller 'g', oavsett om det är med stora bokstäver. 
             Kommer det visa ett felmeddelande och låta loopen fortsätta sin exekvering.
             '''
+
             
+            '''
+            Koden under används för att samla in användarens input för två olika talföljder, antingen aritmetiska eller geometriska, baserat på användarens val.
+            Det skrivs också ut en beskrivning av talföljden som användaren valt.
+            '''
             if summa1 == 'a':
+                print("Data för den aritmetiska summan:")
                 start_värde_aritmetisk1 = läs_in_flyttal("Skriv in startvärdet för det aritmetiska talföljden: ")
                 diffrens1 = läs_in_flyttal("Skriv in differensen: ")
-                antalet_element_aritmetisk1 = läs_in_heltal("Ange antalet elementer för den aritmetiska talföljden: ")
-                resultat1 = aritmetisk_summa(start_värde_aritmetisk1, diffrens1, antalet_element_aritmetisk1)
+                print("")
+                
             else:
+                print("Data för den geometriska summan:")
                 start_värde_geometrisk1 = läs_in_flyttal("Skriv in startvärdet för det geometriska talföljden: ")
                 kvot1 = läs_in_flyttal("Skriv in kvoten: ")
-                antal_element_geometrisk1 = läs_in_heltal("Ange antalet elementer för den geometriska talföljden: ")
-                resultat1 = geometrisk_summa(start_värde_geometrisk1, kvot1, antal_element_geometrisk1)
+                print("")
 
-            # Användaren matar in värden för den andra summan
+            
             summa2 = input("Är den andra summan [a]ritmetisk eller [g]eometrisk? ").lower()
             if summa2 not in ('a', 'g'):
                 print("Ogiltigt val. Var vänlig välj 'a' för aritmetisk eller 'g' för geometrisk.")
                 continue
             
             if summa2 == 'a':
+                print("Data för den aritmetiska summan:")
                 start_värde_aritmetisk2 = läs_in_flyttal("Skriv in startvärdet för det aritmetiska talföljden: ")
                 diffrens2 = läs_in_flyttal("Skriv in differensen: ")
-                antalet_element_aritmetisk2 = läs_in_heltal("Ange antalet elementer för den aritmetiska talföljden: ")
-                resultat2 = aritmetisk_summa(start_värde_aritmetisk2, diffrens2, antalet_element_aritmetisk2)
+                print("")
+                
             else:
+                print("Data för den geometriska summan:")
                 start_värde_geometrisk2 = läs_in_flyttal("Skriv in startvärdet för det geometriska talföljden: ")
                 kvot2 = läs_in_flyttal("Skriv in kvoten: ")
-                antal_element_geometrisk2 = läs_in_heltal("Ange antalet elementer för den geometriska talföljden: ")
-                resultat2 = geometrisk_summa(start_värde_geometrisk2, kvot2, antal_element_geometrisk2)
+                print("")
+                
+            
+            antalet_element = läs_in_heltal("Skriv in antalet element i följden för båda :")
 
-            # Jämför de två summorna
+
+            '''
+    	    Koden under jämför två talföljder, antingen aritmetiska eller geometriska, baserat på användarens val.
+            Resultaten och typen av talföljder (aritmetiska eller geometriska) sparas i variabler för slutet av koden.
+            '''
+            if summa1 == 'a':
+                resultat1 = aritmetisk_summa(start_värde_aritmetisk1, diffrens1, antalet_element)
+                summa1 = 'aritmetiska'
+            else:
+                resultat1 = geometrisk_summa(start_värde_geometrisk1, kvot1, antalet_element)
+                summa1 = 'geometriska'
+            if summa2 == 'a':
+                resultat2 = aritmetisk_summa(start_värde_aritmetisk2, diffrens2, antalet_element)
+                summa2 = 'aritmetiska'
+            else:
+                resultat2 = geometrisk_summa(start_värde_geometrisk2, kvot2, antalet_element)
+                summa2 = 'geometriska'
+    
+
+            '''
+            Koden under jämför resultatet av två talföljder 
+            och skriver ut vilken typ av talföljd som är störst,
+            eller om de är lika stora.
+            '''
             if resultat1 > resultat2:
-                print("Den första summan är störst. \n")
+                print(f"Den {summa1} summan är störst. \n")
             elif resultat1 < resultat2:
-                print("Den andra summan är störst. \n")
+                print(f"Den {summa2} summan är störst. \n")
             else:
                 print("Båda summorna är lika stora. \n")
                 
                 
-
+        
         else:
-            print("Felaktigt val! Välj en siffra mellan 1 och 4. \n")
+            print("Felaktigt val! Välj en siffra mellan 1 och 4. \n") 
+            '''
+            Om användaren inte väljer ett alternativ mellan 1-4 kommer ett felmeddelande att skrivas ut
+            där programet kommer poängtera att du måste välja mellan 1-4.
+            '''
         
         val = läs_in_heltal("Vad vill du göra? ")
     print("Avslutar \n")
