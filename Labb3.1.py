@@ -217,8 +217,6 @@ def meny():
             else:
                 print("Båda summorna är lika stora. \n")
                 
-                
-        
         else:
             print("Felaktigt val! Välj en siffra mellan 1 och 4. \n") 
             '''
