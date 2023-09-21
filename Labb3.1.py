@@ -1,3 +1,7 @@
+'''
+Kopiera denna länk för att komma åt koden än från kth grejen, det blir lättare:
+https://codeshare.io/LwmJng
+'''
 import typed_input
 
 def aritmetisk_summa(a1, d, n):
