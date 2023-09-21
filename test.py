@@ -44,7 +44,7 @@ def jämför_summor():
     talföljd_typ2, start_värde2, parameter2 = läs_in_talföljd()
     
     
-    antal_element = typed_input.läs_in_heltal("Skriv in antalet element i följden: ")
+    antal_element = typed_input.läs_in_heltal("\nSkriv in antalet element i följden: ")
     
     while antal_element <= 0:
         print("Antalet element måste vara större än noll.")

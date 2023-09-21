@@ -13,10 +13,96 @@ def geometrisk_summa(g1, q, n):
     Beräknar summan av en geometrisk talföljd med det första elementvärdet g_1,
     kvoten q mellan elementerna och antalet element n, enligt formeln för geometrisk summa.
     '''
-    if q == 1:
-        raise ValueError("Kvoten kan inte vara 1 för en geometrisk summa.")
     summa = ( g1 * ((q**(n)) - 1) / (q - 1))
     return summa
+
+def läs_in_talföljd():
+    '''
+    Låter användaren mata in information om en talföljd, inklusive typ, startvärde och relevanta parametrar.
+
+    :return: En tupel med information om talföljden: (talföljd_typ, start_värde, diffrens/kvot).
+    '''
+
+    while True:
+        talföljd_typ = input("Är talföljden [a]ritmetisk eller [g]eometrisk? ").lower()
+        if talföljd_typ not in ('a', 'g'):
+            print("Ogiltigt val. Välj 'a' för aritmetisk eller 'g' för geometrisk.")
+        else:
+            break
+    '''
+    Koden nedan jämför två talföljder och lagrar talföljdens typ (antingen 'aritmetisk' eller 'geometrisk')
+    i variabeln följd. Detta görs för att ge en tydligare beskrivning av vilken typ av talföljd som användaren har valt
+    istället för att enbart använda bokstäverna 'a' eller 'g' som identifierare.
+    '''
+    if talföljd_typ == 'a':
+        följd = 'aritmetisk'
+    else:
+        följd = 'geometrisk'
+    start_värde = typed_input.läs_in_flyttal(f"Skriv in startvärdet för den {följd} talföljden: ")
+    
+
+    if talföljd_typ == 'a':
+        diffrens = typed_input.läs_in_flyttal("Skriv in differensen: ")
+    else:
+        kvot = typed_input.läs_in_flyttal("Skriv in kvoten: ")
+        while kvot == 0 or kvot == 1:
+            print("Kvoten kan inte vara 0 eller 1 för en geometrisk talföljd.")
+            kvot = typed_input.läs_in_flyttal("Skriv in värdet på kvoten igen: ")
+        
+    
+    
+    return talföljd_typ, start_värde, diffrens if talföljd_typ == 'a' else kvot
+
+def jämför_summor():
+    '''
+    Låter användaren jämföra två talföljder och visar vilken som är störst eller om de är lika stora.
+    '''
+
+    print("Data för den första summan:")
+    talföljd_typ1, start_värde1, parameter1 = läs_in_talföljd()
+    '''
+    Anropar funktionen 'läs_in_talföljd' för att låta användaren mata in information om den första och andra talföljden.
+    Resultatet av funktionen lagras i variabler 'talföljd_typ', 'start_värde', och 'parameter'.
+    '''
+    print("\nData för den andra summan:")
+    talföljd_typ2, start_värde2, parameter2 = läs_in_talföljd()
+    
+    
+    antal_element = typed_input.läs_in_heltal("\nSkriv in antalet element i följden: ")
+    
+    while antal_element <= 0:
+        print("Antalet element måste vara större än noll.")
+        antal_element = typed_input.läs_in_heltal("Skriv in värdet på antal element igen: ")
+
+    '''
+    Koden under jämför två talföljder, antingen aritmetiska eller geometriska, baserat på användarens val.
+    Resultaten och typen av talföljder (aritmetiska eller geometriska) sparas i variabler för slutet av koden.
+    '''
+    if talföljd_typ1 == 'a':
+        resultat1 = aritmetisk_summa(start_värde1, parameter1, antal_element)
+        talföljd_typ1 = 'aritmetiska'
+    else:
+        resultat1 = geometrisk_summa(start_värde1, parameter1, antal_element)
+        talföljd_typ1 = 'geometriska'
+    if talföljd_typ2 == 'a':
+        resultat2 = aritmetisk_summa(start_värde2, parameter2, antal_element)
+        talföljd_typ2 = 'aritmetiska'
+    else:
+        resultat2 = geometrisk_summa(start_värde2, parameter2, antal_element)
+        talföljd_typ2 = 'geometriska'
+
+    '''
+    Koden under jämför resultatet av två talföljder 
+    och skriver ut vilken typ av talföljd som är störst,
+    eller om de är lika stora.
+    '''
+    if resultat1 > resultat2:
+        print(f"Den {talföljd_typ1} summan är störst.")
+    elif resultat1 < resultat2:
+        print(f"Den {talföljd_typ2} summan är störst.")
+    else:
+        print("Båda summorna är lika stora.")
+
 def meny():
     
     '''
@@ -45,10 +131,10 @@ def meny():
             Val 1 kommer räkna ut aritmetiska summan
             '''
             # Användaren matar in värden för aritmetiska summan:
-            start_värde_aritmetisk = typed_input.läs_in_flyttal("Ange det första värdet för den aritmetiska talföljden: \n")
-            diffrens = typed_input.läs_in_flyttal("Ange differensen för den aritmetiska talföljden: \n")
+            start_värde_aritmetisk = typed_input.läs_in_flyttal("Ange det första värdet för den aritmetiska talföljden: ")
+            diffrens = typed_input.läs_in_flyttal("Ange differensen för den aritmetiska talföljden: ")
             
-            antalet_element_aritmetisk = typed_input.läs_in_heltal("Ange antalet elementer för den aritmetiska talföljden: \n")
+            antalet_element_aritmetisk = typed_input.läs_in_heltal("Ange antalet elementer för den aritmetiska talföljden: ")
             '''
             En while-loop som kontrollerar om antalet element är mindre än eller lika med noll.
             Om det är fallet, betyder det att användaren har angett ett ogiltigt värde för antalet element,
@@ -75,9 +161,9 @@ def meny():
             Val 2 kommer räkna ut geometriska summan.
             '''
             # Användaren matar in värden för geometriska summan:
-            start_värde_geometrisk = typed_input.läs_in_flyttal("Ange det första värdet för den geometriska talföljden: \n")
+            start_värde_geometrisk = typed_input.läs_in_flyttal("Ange det första värdet för den geometriska talföljden: ")
             
-            kvot = typed_input.läs_in_flyttal("Ange kvoten för den geometriska talföljden: \n")
+            kvot = typed_input.läs_in_flyttal("Ange kvoten för den geometriska talföljden: ")
             '''
             Loopen ser till att förhindra nolldivision genom att inte tillåta q att vara ekvivalent med 1.
             '''
@@ -86,139 +172,21 @@ def meny():
                 kvot = typed_input.läs_in_flyttal("Skriv in värdet på kvoten igen: ")
 
             
-            antal_element_geometrisk = typed_input.läs_in_heltal("Ange antalet elementer för den geometriska talföljden: \n")
-            '''
-            En while-loop som kontrollerar om antalet element är mindre än eller lika med noll.
-            Om det är fallet, betyder det att användaren har angett ett ogiltigt värde för antalet element,
-            och en felmeddelande skrivs ut för att informera användaren om att antalet element måste vara större än noll.
-            '''
+            antal_element_geometrisk = typed_input.läs_in_heltal("Ange antalet elementer för den geometriska talföljden: ")
+            
             while antal_element_geometrisk <= 0:
                 print("Antal element måste vara större än noll.")
-                '''
-                Ett meddelande skrivs ut som informerar användaren om att antalet element måste vara större än noll.
-                Därefter uppmanas användaren att skriva in värdet på antalet element igen med hjälp av 
-                `typed_input.läs_in_heltal`-funktionen. Loopen fortsätter att köra tills användaren anger ett giltigt värde
-                för antalet element, det vill säga ett heltal större än noll.
-                '''
                 antal_element_geometrisk = typed_input.läs_in_heltal("Skriv in värdet på antalet element igen: ")
             
 
-
             # Beräknar och skriver ut resultaten för geometriska summan:
             geometrisk_resultat = geometrisk_summa(start_värde_geometrisk, kvot, antal_element_geometrisk)
-            print("Den geometriska summan är: ", geometrisk_resultat)
+            print("Den geometriska summan är: ", geometrisk_resultat, "\n")
         
     
         elif val == 3:
-            '''
-            Val 3 kommer att jämför 2 olika summor,
-            antingen artimetisk och geometrisk eller två av samma. 
-            '''
-            
-            summa1 = input("Är den första summan [a]ritmetisk eller [g]eometrisk? ").lower()
-            if summa1 not in ('a', 'g'):
-                print("Ogiltigt val. Var vänlig välj 'a' för aritmetisk eller 'g' för geometrisk.")
-                continue
-            '''
-            Felhantering för användarinput om den första summan i menyval 3.
-            Om användaren inte anger 'a' eller 'g', oavsett om det är med stora bokstäver. 
-            Kommer det visa ett felmeddelande och låta loopen fortsätta sin exekvering.
-            '''
-
-            
-            '''
-            Koden under används för att samla in användarens input för två olika talföljder, antingen aritmetiska eller geometriska, baserat på användarens val.
-            Det skrivs också ut en beskrivning av talföljden som användaren valt.
-            '''
-            if summa1 == 'a':
-                print("Data för den aritmetiska summan:")
-                start_värde_aritmetisk1 = typed_input.läs_in_flyttal("Skriv in startvärdet för det aritmetiska talföljden: ")
-                diffrens1 = typed_input.läs_in_flyttal("Skriv in differensen: ")
-                print("")
-                
-            else:
-                print("Data för den geometriska summan:")
-                start_värde_geometrisk1 = typed_input.läs_in_flyttal("Skriv in startvärdet för det geometriska talföljden: ")
-                kvot1 = typed_input.läs_in_flyttal("Skriv in kvoten: ")
-                '''
-                Loopen ser till att förhindra nolldivision genom att inte tillåta q att vara ekvivalent med 1.
-                '''
-                while kvot1 == 0 or kvot1 == 1:
-                    print("Kvoten kan inte vara 0 eller 1. Försök igen.")
-                    kvot1 = typed_input.läs_in_flyttal("Skriv in värdet på kvoten igen: ")
-                print("")
-
-            
-            summa2 = input("Är den andra summan [a]ritmetisk eller [g]eometrisk? ").lower()
-            if summa2 not in ('a', 'g'):
-                print("Ogiltigt val. Var vänlig välj 'a' för aritmetisk eller 'g' för geometrisk.")
-                continue
-            
-            if summa2 == 'a':
-                print("Data för den aritmetiska summan:")
-                start_värde_aritmetisk2 = typed_input.läs_in_flyttal("Skriv in startvärdet för det aritmetiska talföljden: ")
-                diffrens2 = typed_input.läs_in_flyttal("Skriv in differensen: ")
-                print("")
-                
-            else:
-                print("Data för den geometriska summan:")
-                start_värde_geometrisk2 = typed_input.läs_in_flyttal("Skriv in startvärdet för det geometriska talföljden: ")
-                kvot2 = typed_input.läs_in_flyttal("Skriv in kvoten: ")
-                '''
-                Loopen ser till att förhindra nolldivision genom att inte tillåta q att vara ekvivalent med 1.
-                '''
-                while kvot2 == 0 or kvot == 1:
-                    print("Kvoten kan inte vara 0 eller 1. Försök igen.")
-                    kvot2 = typed_input.läs_in_flyttal("Skriv in värdet på kvoten igen: ")
-                print("")
-                
-            
-            antalet_element = typed_input.läs_in_heltal("Skriv in antalet element i följden för båda :")
-            '''
-            En while-loop som kontrollerar om antalet element är mindre än eller lika med noll.
-            Om det är fallet, betyder det att användaren har angett ett ogiltigt värde för antalet element,
-            och en felmeddelande skrivs ut för att informera användaren om att antalet element måste vara större än noll.
-            '''
-            while antalet_element <= 0:
-                print("Antalet element måste vara större än noll.")
-                '''
-                Ett meddelande skrivs ut som informerar användaren om att antalet element måste vara större än noll.
-                Därefter uppmanas användaren att skriva in värdet på antalet element igen med hjälp av 
-                `typed_input.läs_in_heltal`-funktionen. Loopen fortsätter att köra tills användaren anger ett giltigt värde
-                för antalet element, det vill säga ett heltal större än noll.
-                '''
-                antalet_element = typed_input.läs_in_heltal("Skriv in värdet på antal element igen: ")
-
-            '''
-    	    Koden under jämför två talföljder, antingen aritmetiska eller geometriska, baserat på användarens val.
-            Resultaten och typen av talföljder (aritmetiska eller geometriska) sparas i variabler för slutet av koden.
-            '''
-            if summa1 == 'a':
-                resultat1 = aritmetisk_summa(start_värde_aritmetisk1, diffrens1, antalet_element)
-                summa1 = 'aritmetiska'
-            else:
-                resultat1 = geometrisk_summa(start_värde_geometrisk1, kvot1, antalet_element)
-                summa1 = 'geometriska'
-            if summa2 == 'a':
-                resultat2 = aritmetisk_summa(start_värde_aritmetisk2, diffrens2, antalet_element)
-                summa2 = 'aritmetiska'
-            else:
-                resultat2 = geometrisk_summa(start_värde_geometrisk2, kvot2, antalet_element)
-                summa2 = 'geometriska'
-    
-
-            '''
-            Koden under jämför resultatet av två talföljder 
-            och skriver ut vilken typ av talföljd som är störst,
-            eller om de är lika stora.
-            '''
-            if resultat1 > resultat2:
-                print(f"Den {summa1} summan är störst. \n")
-            elif resultat1 < resultat2:
-                print(f"Den {summa2} summan är störst. \n")
-            else:
-                print("Båda summorna är lika stora. \n")
-                
+           jämför_summor()
+        
         else:
             print("Felaktigt val! Välj en siffra mellan 1 och 4. \n") 
             '''
