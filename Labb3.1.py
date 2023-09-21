@@ -13,7 +13,8 @@ def geometrisk_summa(g1, q, n):
     Beräknar summan av en geometrisk talföljd med det första elementvärdet g_1,
     kvoten q mellan elementerna och antalet element n, enligt formeln för geometrisk summa.
     '''
-
+    if q == 1:
+        raise ValueError("Kvoten kan inte vara 1 för en geometrisk summa.")
     summa = ( g1 * ((q**(n)) - 1) / (q - 1))
     return summa
 def meny():
@@ -23,14 +24,15 @@ def meny():
     för att beräkna aritmetiska och geometriska summor samt jämföra två summor.
     '''
     print(
-            """
-                                             --- Meny ---
-                        Välkommen till Summa Meny. Välj ett av alternativen nedan:
-                1. Räkna ut aritmetisk summa.                     2. Räkna ut geometrisk summa.
-                                         
-                3. Jämför två summor                              4. Avsluta.
-            ---------------------------------------------------------------------------------------
-            """)
+        """
+        --- Meny ---
+        Välkommen till Summa Meny. Välj ett av alternativen nedan:
+        1. Räkna ut aritmetisk summa.
+        2. Räkna ut geometrisk summa.
+        3. Jämför två summor.
+        4. Avsluta.
+        """
+    )
 
     val = typed_input.läs_in_heltal("Vad vill du göra? ")
     while val != 4:

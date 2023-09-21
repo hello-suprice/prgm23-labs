@@ -9,22 +9,28 @@ def geometrisk_summa(g1, q, n):
     return g1 * ((q**n) - 1) / (q - 1)
 
 def läs_in_talföljd():
-    talföljd_typ = input("Är talföljden [a]ritmetisk eller [g]eometrisk? ").lower()
+   
+    while True:
+        talföljd_typ = input("Är talföljden [a]ritmetisk eller [g]eometrisk? ").lower()
+        if talföljd_typ not in ('a', 'g'):
+            print("Ogiltigt val. Välj 'a' för aritmetisk eller 'g' för geometrisk.")
+        else:
+            break
     
-    if talföljd_typ not in ('a', 'g'):
-        print("Ogiltigt val. Välj 'a' för aritmetisk eller 'g' för geometrisk.")
-        return None, None, None
-    
-    start_värde = typed_input.läs_in_flyttal(f"Skriv in startvärdet för den {talföljd_typ} talföljden: ")
+    if talföljd_typ == 'a':
+        följd = 'aritmetisk'
+    else:
+        följd = 'geometrisk'
+    start_värde = typed_input.läs_in_flyttal(f"Skriv in startvärdet för den {följd} talföljden: ")
     
     if talföljd_typ == 'a':
         diffrens = typed_input.läs_in_flyttal("Skriv in differensen: ")
+        
     else:
         kvot = typed_input.läs_in_flyttal("Skriv in kvoten: ")
-        if kvot == 1:
-            print("Kvoten kan inte vara 1 för en geometrisk summa.")
-            return None, None, None
-    
+        while kvot == 0 or kvot == 1:
+            print("Kvoten kan inte vara 0 eller 1 för en geometrisk talföljd.")
+            kvot = typed_input.läs_in_flyttal("Skriv in värdet på kvoten igen: ")
     
     
     return talföljd_typ, start_värde, diffrens if talföljd_typ == 'a' else kvot
@@ -33,20 +39,16 @@ def jämför_summor():
     print("Data för den första summan:")
     talföljd_typ1, start_värde1, parameter1 = läs_in_talföljd()
     
-    if talföljd_typ1 is None:
-        return
 
     print("\nData för den andra summan:")
     talföljd_typ2, start_värde2, parameter2 = läs_in_talföljd()
     
-    if talföljd_typ2 is None:
-        return
     
     antal_element = typed_input.läs_in_heltal("Skriv in antalet element i följden: ")
     
-    if antal_element <= 0:
-        print("Antal element måste vara större än noll.")
-        return None, None, None
+    while antal_element <= 0:
+        print("Antalet element måste vara större än noll.")
+        antal_element = typed_input.läs_in_heltal("Skriv in värdet på antal element igen: ")
 
     
     if talföljd_typ1 == 'a':
