@@ -101,9 +101,9 @@ def jämför_summor():
     eller om de är lika stora.
     '''
     if resultat1 > resultat2:
-        print(f"Den {talföljd_typ1} summan är störst.")
+        print(f"Den första {talföljd_typ1} summan är störst.")
     elif resultat1 < resultat2:
-        print(f"Den {talföljd_typ2} summan är störst.")
+        print(f"Den andra {talföljd_typ2} summan är störst.")
     else:
         print("Båda summorna är lika stora.")
 
