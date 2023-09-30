@@ -1,3 +1,8 @@
+'''
+Skapad av Teeshk N, Henrik A & Simon B
+Kom åt koden här: https://codeshare.io/vwvDnK
+'''
+
 class Student:
     """
     En klass för att representera en student.
@@ -60,10 +65,13 @@ def ta_bort_student():
     else:
         print("Inget objekt med det personnumret hittades.")
 
-def uppdatera_student():
-    personnummer_uppdatera = input("Skriv in personnumret på studenten du vill ändra: ")
+def ändra_student():
+    '''
+    Funktion för att ändra en befintligt student
+    '''
+    personnummer_ändra = input("Skriv in personnumret på studenten du vill ändra: ")
     for student in studenter:
-        if student.personnummer == personnummer_uppdatera:
+        if student.personnummer == personnummer_ändra:
             print(f"Vill du ändra namn på {student.förnamn} {student.efternamn} (Ja eller nej)? ")
             choice = input()
             if choice.lower() == 'ja':
@@ -97,7 +105,7 @@ while True:
     elif val.lower() == 't':
         ta_bort_student()
     elif val.lower() == 'a':
-        uppdatera_student()
+        ändra_student()
     elif val.lower() == 'q':
         break
     else:
