@@ -73,8 +73,8 @@ def ändra_student():
     for student in studenter:
         if student.personnummer == personnummer_ändra:
             print(f"Vill du ändra namn på {student.förnamn} {student.efternamn} (Ja eller nej)? ")
-            choice = input()
-            if choice.lower() == 'ja':
+            val = input()
+            if val.lower() == 'ja':
                 student.förnamn = input("Skriv in det nya förnamnet: ")
                 student.efternamn = input("Skriv in det nya efternamnet: ")
                 print(f"Nu är namnet för {student.personnummer} ändrat till {student.förnamn} {student.efternamn}!")
