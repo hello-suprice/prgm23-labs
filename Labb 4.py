@@ -2,11 +2,11 @@ class Student:
     """
     En klass för att representera en student.
     """
-    def __init__(self, fornamn, efternamn, personnummer):
+    def __init__(self, förnamn, efternamn, personnummer):
         """
         Konstruktorn för klassen Student.
         """
-        self.fornamn = fornamn
+        self.förnamn = förnamn
         self.efternamn = efternamn
         self.personnummer = personnummer
 
@@ -14,7 +14,7 @@ class Student:
         """
         Returnerar en strängrepresentation av studentobjektet.
         """
-        return f"Namn: {self.fornamn} {self.efternamn} Personnr: {self.personnummer}"
+        return f"Namn: {self.förnamn} {self.efternamn} Personnr: {self.personnummer}"
 
 def hämta_giltigt_personnummer():
     """
@@ -32,10 +32,10 @@ def lägg_till_student():
     Funktion för att lägga till en ny student.
     """
     print("Lägg till en ny student:")
-    fornamn = input("Förnamn: ")
+    förnamn = input("Förnamn: ")
     efternamn = input("Efternamn: ")
     personnummer = hämta_giltigt_personnummer()
-    student = Student(fornamn, efternamn, personnummer)
+    student = Student(förnamn, efternamn, personnummer)
     studenter.append(student)
     print("Objektet skapat!\n")
 
@@ -61,22 +61,21 @@ def ta_bort_student():
         print("Inget objekt med det personnumret hittades.")
 
 def uppdatera_student():
-    personnummer_to_update = input("Skriv in personnumret på objektet du vill ändra: ")
+    personnummer_uppdatera = input("Skriv in personnumret på studenten du vill ändra: ")
     for student in studenter:
-        if student.personnummer == personnummer_to_update:
-            choice = input(print(f"Vill du ändra namn på {student.first_name} {student.last_name} (Ja eller nej)? "))
+        if student.personnummer == personnummer_uppdatera:
+            print(f"Vill du ändra namn på {student.förnamn} {student.efternamn} (Ja eller nej)? ")
+            choice = input()
             if choice.lower() == 'ja':
-                new_first_name = input("Skriv in det nya förnamnet: ")
-                new_last_name = input("Skriv in det nya efternamnet: ")
-                student.first_name = new_first_name
-                student.last_name = new_last_name
-                print(f"Nu är namnet för {student.personnummer} ändrat till {new_first_name} {new_last_name}!")
-                break
+                student.förnamn = input("Skriv in det nya förnamnet: ")
+                student.efternamn = input("Skriv in det nya efternamnet: ")
+                print(f"Nu är namnet för {student.personnummer} ändrat till {student.förnamn} {student.efternamn}!")
             else:
                 print("Inget ändrades.")
-                break
+            break
     else:
         print("Inget objekt med det personnumret hittades.")
+
 
 studenter = []
 
