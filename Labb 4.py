@@ -87,30 +87,32 @@ def ändra_student():
 
 studenter = []
 
-while True:
-    print("""
-          Välj ett alternativ från menyn nedan:
-          (l) Lägg till en ny student
-          (m) Lägg till flera nya studenter
-          (t) Ta bort en befintlig student
-          (a) Ändra en befintligt student
-          (q) Avsluta programmet
-          """)
+def main():
+    while True:
+        print("""
+            Välj ett alternativ från menyn nedan:
+            (l) Lägg till en ny student
+            (m) Lägg till flera nya studenter
+            (t) Ta bort en befintlig student
+            (a) Ändra en befintligt student
+            (q) Avsluta programmet
+            """)
 
-    val = input()
-    if val.lower() == 'l':
-        lägg_till_student()
-    elif val.lower() == 'm':
-        lägg_till_studenter()
-    elif val.lower() == 't':
-        ta_bort_student()
-    elif val.lower() == 'a':
-        ändra_student()
-    elif val.lower() == 'q':
-        break
-    else:
-        print("Ogiltigt val. Försök igen.")
+        val = input()
+        if val.lower() == 'l':
+            lägg_till_student()
+        elif val.lower() == 'm':
+            lägg_till_studenter()
+        elif val.lower() == 't':
+            ta_bort_student()
+        elif val.lower() == 'a':
+            ändra_student()
+        elif val.lower() == 'q':
+            break
+        else:
+            print("Ogiltigt val. Försök igen.")
 
-print("Här är alla sparade objekt:")
-for student in studenter:
-    print(student)
+    print("Här är alla sparade objekt:")
+    for student in studenter:
+        print(student)
+main()
