@@ -179,7 +179,7 @@ def main():
     print("Här är alla studenter på KTH:")
     for student in skola.studenter:
         print(student)
-    print("\nHär är alla studenter på KTH:")
+    print("\nHär är alla lärare på KTH:")
     for lärare in skola.lärare:
         print(lärare)
 main()
