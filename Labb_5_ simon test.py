@@ -49,7 +49,7 @@ class School:
             else:
                 print("Personnumret får bara innehålla 2 siffror, försök igen!")
     
-    def lägg_till_student(self):
+    def lägg_till_person(self):
         """
         Funktion för att lägga till en ny student.
         """
@@ -88,46 +88,45 @@ class School:
         for lärare in self.lärare:
             print(lärare)
     
-    def lägg_till_studenter(self):
+    def lägg_till_personer(self):
         """
-        Funktion för att lägga till flera studenter.
+        Funktion för att lägga till flera personer.
         """
-        antal_studenter = läs_in_heltal("Hur många studenter vill du lägga till? ")
-        for _ in range(antal_studenter):
-            self.lägg_till_student()
+        antal_personer = läs_in_heltal("Hur många personer vill du lägga till? ")
+        for _ in range(antal_personer):
+            self.lägg_till_person()
     
-    def ta_bort_student(self):
+    def ta_bort_person(self):
         """
-        Funktion för att ta bort en befintlig student.
+        Funktion för att ta bort en befintlig person.
         """
         personnummer_att_ta_bort = input("Skriv in personnumret på objektet du vill ta bort: ")
-        for student in self.studenter:
-            if student.personnummer == personnummer_att_ta_bort:
-                self.studenter.remove(student)
-                print(f"Objektet med personnummer {personnummer_att_ta_bort} har tagits bort!")
-                break
-        else:
-            print("Inget objekt med det personnumret hittades.")
-    
-    def ändra_student(self):
-        '''
-        Funktion för att ändra en befintligt student
-        '''
-        personnummer_ändra = läs_in_heltal("Skriv in personnumret på studenten du vill ändra: ")
-        for student in self.personer:
-            if student.personnummer == personnummer_ändra:
-                print(f"Vill du ändra namn på {student.förnamn} {student.efternamn} (Ja eller nej)? ")
-                val = input()
-                if val.lower() == 'ja':
-                    student.förnamn = input("Skriv in det nya förnamnet: ")
-                    student.efternamn = input("Skriv in det nya efternamnet: ")
-                    print(f"Nu är namnet för {student.personnummer} ändrat till {student.förnamn} {student.efternamn}!")
-                else:
-                    print("Inget ändrades.")
-                break
-        else:
-            print("Inget objekt med det personnumret hittades.")
+        for lista in [self.studenter, self.lärare]:
+            for person in lista:
+                if person.personnummer == personnummer_att_ta_bort:
+                    lista.remove(person)
+                    print(f"Objektet med personnummer {personnummer_att_ta_bort} har tagits bort!")
+                    return
+        print("Inget objekt med det personnumret hittades.")
 
+    def ändra_person(self):
+        '''
+        Funktion för att ändra en befintlig person
+        '''
+        personnummer_ändra = läs_in_heltal("Skriv in personnumret på personen du vill ändra: ")
+        for lista in [self.studenter, self.lärare]:
+            for person in lista:
+                if person.personnummer == personnummer_ändra:
+                    print(f"Vill du ändra namn på {person.förnamn} {person.efternamn} (Ja eller nej)? ")
+                    val = input()
+                    if val.lower() == 'ja':
+                        person.förnamn = input("Skriv in det nya förnamnet: ")
+                        person.efternamn = input("Skriv in det nya efternamnet: ")
+                        print(f"Nu är namnet för {person.personnummer} ändrat till {person.förnamn} {person.efternamn}!")
+                    else:
+                        print("Inget ändrades.")
+                    return
+        print("Inget objekt med det personnumret hittades.")
 
 def läs_in_heltal(prompt):
     '''
@@ -162,15 +161,15 @@ def main():
 
         val = input()
         if val.lower() == 'l':
-            skola.lägg_till_student()
+            skola.lägg_till_person()
             skola.visa_alla_personer()
         elif val.lower() == 'm':
-            skola.lägg_till_studenter()
+            skola.lägg_till_personer()
             skola.visa_alla_personer()
         elif val.lower() == 't':
-            skola.ta_bort_student()
+            skola.ta_bort_person()
         elif val.lower() == 'a':
-            skola.ändra_student()
+            skola.ändra_person()
         elif val.lower() == 'q':
             break
         else:
