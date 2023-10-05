@@ -37,30 +37,40 @@ class School:
     def __init__(self):
         self.studenter = []
         self.lärare = []
-    @staticmethod
-    def hämta_giltigt_personnummer():
+
+    def hämta_giltigt_personnummer(self):
         """
-        Funktion för att få ett giltigt personnummer från användaren.
+        Funktion för att få ett korrekt skriver personnummer som inte används
         """
         while True:
-            personnummer = input("Vad är studentens personnummer? ")
-            if personnummer.isdigit() and len(personnummer) == 2:
+            personnummer = input("Personnummer: ")
+            personummer_använt = False
+            for lista in [self.studenter, self.lärare]:
+                for person in lista:
+                    if personnummer == person.personnummer:
+                        personummer_använt = True
+                        break
+            if personnummer.isdigit() and len(personnummer) == 10 and not personummer_använt:
                 return personnummer
             else:
-                print("Personnumret får bara innehålla 2 siffror, försök igen!")
+                print("Personnumret får bara innehålla 10 siffror och inte vara i användning, försök igen!")
     
     def lägg_till_person(self):
         """
         Funktion för att lägga till en ny student.
         """
-        
-        print("Lägg till en ny student:")
-        förnamn = input("Förnamn: ")
-        efternamn = input("Efternamn: ")
-        personnummer = self.hämta_giltigt_personnummer()
+        while True:
+            print("Lägg till en ny student:")
+            förnamn = input("Förnamn: ")
+            efternamn = input("Efternamn: ")
+            if förnamn.isalpha() and efternamn.isalpha():
+                personnummer = self.hämta_giltigt_personnummer()
+                break
+            else:
+                print("Välj ett namn som endast inehåller bokstäver, försök igen!")
         
         while True:
-            lärare_eller_student = input("Är det en [l]ärare eller [s]tudent")    
+            lärare_eller_student = input("Är det en (l) lärare eller (s) student: ")    
             if lärare_eller_student == "s":
                 roll = "student"
                 student = Student(förnamn, efternamn, personnummer, roll)
@@ -72,7 +82,7 @@ class School:
                 self.lärare.append(student)
                 break
             else:
-                print("Något gick fel försök igen")
+                print("Något blev fel, skriv l för lärare eller s för student, försök igen!")
                 
         
         print("""
@@ -117,8 +127,7 @@ class School:
         for lista in [self.studenter, self.lärare]:
             for person in lista:
                 if person.personnummer == personnummer_ändra:
-                    print(f"Vill du ändra namn på {person.förnamn} {person.efternamn} (Ja eller nej)? ")
-                    val = input()
+                    val = input(f"Vill du ändra namn på {person.förnamn} {person.efternamn} (ja eller nej)?: ")
                     if val.lower() == 'ja':
                         person.förnamn = input("Skriv in det nya förnamnet: ")
                         person.efternamn = input("Skriv in det nya efternamnet: ")
@@ -127,6 +136,16 @@ class School:
                         print("Inget ändrades.")
                     return
         print("Inget objekt med det personnumret hittades.")
+    
+    def sök_efter_person(self):
+        sökt_person = input("Vad heter personen du söker efter?: ")
+        for lista in [self.studenter, self.lärare]:
+            for person in lista:
+                if person.förnamn + " " + person.efternamn == sökt_person:
+                    print(f"Namn: {person.förnamn} {person.efternamn} \nPersonnr: {person.personnummer} \nRoll: {person.roll}")
+                else:
+                    print("Personen du sökte efter finns inte")
+
 
 def läs_in_heltal(prompt):
     '''
@@ -147,6 +166,8 @@ def läs_in_heltal(prompt):
             '''
 
 
+
+
 def main(): 
     skola = School()
     while True:
@@ -156,10 +177,11 @@ def main():
             (m) Lägg till flera nya personer.
             (t) Ta bort en befintlig person.
             (a) Ändra en befintligt person.
+            (s) Sök efter en person            
             (q) Avsluta programmet
             """)
 
-        val = input()
+        val = input("Alternativ: ")
         if val.lower() == 'l':
             skola.lägg_till_person()
             skola.visa_alla_personer()
@@ -170,6 +192,8 @@ def main():
             skola.ta_bort_person()
         elif val.lower() == 'a':
             skola.ändra_person()
+        elif val.lower() == 's':
+            skola.sök_efter_person()
         elif val.lower() == 'q':
             break
         else:
