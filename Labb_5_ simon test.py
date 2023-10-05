@@ -11,6 +11,9 @@ class Person:
         self.förnamn = förnamn
         self.efternamn = efternamn
         self.personnummer = personnummer
+    
+    def __str__(self):
+        return f"{self.förnamn} {self.efternamn}, {self.personnummer}"
 
 class Lärare(Person):
     def __init__(self, förnamn, efternamn, personnummer, roll):
@@ -21,7 +24,7 @@ class Lärare(Person):
 
 class Student(Person):
     def __init__(self, förnamn, efternamn, personnummer, roll):
-        super().__init__(self, förnamn, efternamn, personnummer)
+        super().__init__(förnamn, efternamn, personnummer)
         self.roll = roll
     def __str__(self):
         return f"Namn: {self.förnamn} {self.efternamn} Personnr: {self.personnummer}  Roll: {self.roll}"
@@ -33,7 +36,7 @@ class School:
     
     def __init__(self):
         self.studenter = []
-    personer = []
+        self.lärare = []
     @staticmethod
     def hämta_giltigt_personnummer():
         """
@@ -41,10 +44,10 @@ class School:
         """
         while True:
             personnummer = input("Vad är studentens personnummer? ")
-            if personnummer.isdigit() and len(personnummer) == 10:
+            if personnummer.isdigit() and len(personnummer) == 2:
                 return personnummer
             else:
-                print("Personnumret får bara innehålla 10 siffror, försök igen!")
+                print("Personnumret får bara innehålla 2 siffror, försök igen!")
     
     def lägg_till_student(self):
         """
@@ -55,19 +58,35 @@ class School:
         förnamn = input("Förnamn: ")
         efternamn = input("Efternamn: ")
         personnummer = self.hämta_giltigt_personnummer()
-        lärare_eller_student = input("Är det en [l]ärare eller [s]tudent")
-        if lärare_eller_student == "s":
-            roll = "student"
-            student = Student(förnamn, efternamn, personnummer, roll)
-        elif lärare_eller_student == "l":
-            roll = "lärare"
-            student = Lärare(förnamn, efternamn, personnummer, roll)
-        else:
-            print("Något gick fel försök igen")
-        #self.studenter.append(student)
-        School.personer.append(student)
-        print("här är alla studenter", str(School.personer))
-        print("Objektet skapat!\n")
+        
+        while True:
+            lärare_eller_student = input("Är det en [l]ärare eller [s]tudent")    
+            if lärare_eller_student == "s":
+                roll = "student"
+                student = Student(förnamn, efternamn, personnummer, roll)
+                self.studenter.append(student)
+                break
+            elif lärare_eller_student == "l":
+                roll = "lärare"
+                student = Lärare(förnamn, efternamn, personnummer, roll)
+                self.lärare.append(student)
+                break
+            else:
+                print("Något gick fel försök igen")
+                
+        
+        print("""
+        Personen tillagd!
+        """)
+
+    def visa_alla_personer(self):
+        print("Här är alla studenter på KTH:")
+        for student in self.studenter:
+            print(student)
+        
+        print("\nHär är alla lärare på KTH:")
+        for lärare in self.lärare:
+            print(lärare)
     
     def lägg_till_studenter(self):
         """
@@ -95,7 +114,7 @@ class School:
         Funktion för att ändra en befintligt student
         '''
         personnummer_ändra = läs_in_heltal("Skriv in personnumret på studenten du vill ändra: ")
-        for student in self.studenter:
+        for student in self.personer:
             if student.personnummer == personnummer_ändra:
                 print(f"Vill du ändra namn på {student.förnamn} {student.efternamn} (Ja eller nej)? ")
                 val = input()
@@ -108,6 +127,7 @@ class School:
                 break
         else:
             print("Inget objekt med det personnumret hittades.")
+
 
 def läs_in_heltal(prompt):
     '''
@@ -133,18 +153,20 @@ def main():
     while True:
         print("""
             Välj ett alternativ från menyn nedan:
-            (l) Lägg till en ny student
-            (m) Lägg till flera nya studenter
-            (t) Ta bort en befintlig student
-            (a) Ändra en befintligt student
+            (l) Lägg till en ny person.
+            (m) Lägg till flera nya personer.
+            (t) Ta bort en befintlig person.
+            (a) Ändra en befintligt person.
             (q) Avsluta programmet
             """)
 
         val = input()
         if val.lower() == 'l':
             skola.lägg_till_student()
+            skola.visa_alla_personer()
         elif val.lower() == 'm':
             skola.lägg_till_studenter()
+            skola.visa_alla_personer()
         elif val.lower() == 't':
             skola.ta_bort_student()
         elif val.lower() == 'a':
@@ -154,7 +176,11 @@ def main():
         else:
             print("Ogiltigt val. Försök igen.")
 
-    print("Här är alla sparade objekt:")
-    for student in skola:
+    print("Här är alla sparade objekt:\n")
+    print("Här är alla studenter på KTH:")
+    for student in skola.studenter:
         print(student)
+    print("\nHär är alla studenter på KTH:")
+    for lärare in skola.lärare:
+        print(lärare)
 main()
