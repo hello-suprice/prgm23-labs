@@ -113,7 +113,7 @@ class School:
         '''
         Funktion för att ändra en befintlig person
         '''
-        personnummer_ändra = läs_in_heltal("Skriv in personnumret på personen du vill ändra: ")
+        personnummer_ändra = input("Skriv in personnumret på personen du vill ändra: ")
         for lista in [self.studenter, self.lärare]:
             for person in lista:
                 if person.personnummer == personnummer_ändra:
