@@ -15,6 +15,7 @@ class Person:
     def __str__(self):
         return f"{self.förnamn} {self.efternamn}, {self.personnummer}"
 
+
 class Lärare(Person):
     def __init__(self, förnamn, efternamn, personnummer, roll):
         super().__init__(förnamn, efternamn, personnummer)
@@ -22,12 +23,14 @@ class Lärare(Person):
     def __str__(self):
         return f"Namn: {self.förnamn} {self.efternamn} Personnr: {self.personnummer} Roll: {self.roll}"
 
+
 class Student(Person):
     def __init__(self, förnamn, efternamn, personnummer, roll):
         super().__init__(förnamn, efternamn, personnummer)
         self.roll = roll
     def __str__(self):
         return f"Namn: {self.förnamn} {self.efternamn} Personnr: {self.personnummer}  Roll: {self.roll}"
+
 
 class School:
     '''
@@ -54,6 +57,7 @@ class School:
                 return personnummer
             else:
                 print("Personnumret får bara innehålla 10 siffror och inte vara i användning, försök igen!")
+
     
     def lägg_till_person(self):
         '''
@@ -84,11 +88,11 @@ class School:
             else:
                 print("Något blev fel, skriv l för lärare eller s för student, försök igen!")
                 
-        
         print("""
         Personen tillagd!
         """)
 
+    
     def visa_alla_personer(self):
         print("Här är alla studenter på KTH:")
         for student in self.studenter:
@@ -97,6 +101,7 @@ class School:
         print("\nHär är alla lärare på KTH:")
         for lärare in self.lärare:
             print(lärare)
+
     
     def lägg_till_personer(self):
         '''
@@ -105,6 +110,7 @@ class School:
         antal_personer = läs_in_heltal("Hur många personer vill du lägga till? ")
         for _ in range(antal_personer):
             self.lägg_till_person()
+
     
     def ta_bort_person(self):
         '''
@@ -119,6 +125,7 @@ class School:
                     return
         print("Inget objekt med det personnumret hittades.")
 
+    
     def ändra_person(self):
         '''
         Funktion för att ändra en befintlig person.
@@ -136,6 +143,7 @@ class School:
                         print("Inget ändrades.")
                     return
         print("Inget objekt med det personnumret hittades.")
+
     
     def sök_efter_person(self):
         '''
@@ -171,8 +179,6 @@ def läs_in_heltal(prompt):
             Om användaren matar in något som inte kan tolkas som ett giltigt heltal, 
             kommer funktionen att kasta ett ValueError och skriva ut ett felmeddelande.
             '''
-
-
 
 
 def main():
