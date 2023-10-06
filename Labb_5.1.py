@@ -1,6 +1,6 @@
 '''
 Skapad av Teeshk N, Henrik A & Simon B
-Kom åt koden här: https://codeshare.io/6pPp80
+Kom åt koden här: https://codeshare.io/loKdpy
 '''
 
 class Person:
