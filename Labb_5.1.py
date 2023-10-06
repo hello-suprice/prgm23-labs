@@ -140,19 +140,13 @@ class School:
     def sök_efter_person(self):
         while True:
             sökt_person = input("Vad heter personen du söker efter?: ")
-            hittad = False
             for lista in [self.studenter, self.lärare]:
                 for person in lista:
                     if person.förnamn + " " + person.efternamn == sökt_person:
                         print(f"Namn: {person.förnamn} {person.efternamn} \nPersonnr: {person.personnummer} \nRoll: {person.roll}")
-                        hittad = True
-                        break
-                if hittad:
-                    break
-            if not hittad:
-                print("Personen du sökte efter finns inte, försök igen")
-            else:
-                break
+                        return
+            print("Personen du sökte efter finns inte, försök igen")
+            
 
 def läs_in_heltal(prompt):
     '''
