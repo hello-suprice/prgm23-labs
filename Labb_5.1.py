@@ -5,9 +5,9 @@ Kom åt koden här: https://codeshare.io/6pPp80
 
 class Person:
     def __init__(self, förnamn, efternamn, personnummer):
-        """
+        '''
         Konstruktorn för klassen persson.
-        """
+        '''
         self.förnamn = förnamn
         self.efternamn = efternamn
         self.personnummer = personnummer
@@ -30,18 +30,18 @@ class Student(Person):
         return f"Namn: {self.förnamn} {self.efternamn} Personnr: {self.personnummer}  Roll: {self.roll}"
 
 class School:
-    """
+    '''
     En klass för att representera en skola.
-    """
+    '''
     
     def __init__(self):
         self.studenter = []
         self.lärare = []
 
     def hämta_giltigt_personnummer(self):
-        """
-        Funktion för att få ett korrekt skriver personnummer som inte används
-        """
+        '''
+        Funktion för att få ett korrekt skriver personnummer som inte används.
+        '''
         while True:
             personnummer = input("Personnummer: ")
             personummer_använt = False
@@ -56,9 +56,9 @@ class School:
                 print("Personnumret får bara innehålla 10 siffror och inte vara i användning, försök igen!")
     
     def lägg_till_person(self):
-        """
+        '''
         Funktion för att lägga till en ny student.
-        """
+        '''
         while True:
             print("Lägg till en ny student:")
             förnamn = input("Förnamn: ")
@@ -99,17 +99,17 @@ class School:
             print(lärare)
     
     def lägg_till_personer(self):
-        """
+        '''
         Funktion för att lägga till flera personer.
-        """
+        '''
         antal_personer = läs_in_heltal("Hur många personer vill du lägga till? ")
         for _ in range(antal_personer):
             self.lägg_till_person()
     
     def ta_bort_person(self):
-        """
+        '''
         Funktion för att ta bort en befintlig person.
-        """
+        '''
         personnummer_att_ta_bort = input("Skriv in personnumret på objektet du vill ta bort: ")
         for lista in [self.studenter, self.lärare]:
             for person in lista:
@@ -121,7 +121,7 @@ class School:
 
     def ändra_person(self):
         '''
-        Funktion för att ändra en befintlig person
+        Funktion för att ändra en befintlig person.
         '''
         personnummer_ändra = input("Skriv in personnumret på personen du vill ändra: ")
         for lista in [self.studenter, self.lärare]:
@@ -138,6 +138,9 @@ class School:
         print("Inget objekt med det personnumret hittades.")
     
     def sök_efter_person(self):
+        '''
+        Funktion för att söka efter en person.
+        '''
         while True:
             sökt_person = input("Vad heter personen du söker efter?: ")
             for lista in [self.studenter, self.lärare]:
@@ -169,7 +172,13 @@ def läs_in_heltal(prompt):
 
 
 
-def main(): 
+def main():
+    '''
+    Huvudfunktionen som kör tills användaren väljer att avsluta programmet.
+    Användaren presenteras med en meny med alternativ för att lägga till, 
+    ta bort, ändra eller söka efter personer i skolan.
+    Efter varje operation visas alla sparade objekt.
+    '''
     skola = School()
     while True:
         print("""
