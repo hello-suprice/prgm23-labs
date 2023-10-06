@@ -141,6 +141,9 @@ class School:
         '''
         Funktion för att söka efter en person.
         '''
+        if not self.studenter and not self.lärare:
+            print("Det finns inga personer att söka efter ännu.")
+            return
         while True:
             sökt_person = input("Vad heter personen du söker efter?: ")
             for lista in [self.studenter, self.lärare]:
