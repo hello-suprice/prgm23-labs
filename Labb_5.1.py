@@ -41,6 +41,7 @@ class School:
         self.studenter = []
         self.lärare = []
 
+    
     def hämta_giltigt_personnummer(self):
         '''
         Funktion för att få ett korrekt skriver personnummer som inte används.
