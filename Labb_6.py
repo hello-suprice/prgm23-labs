@@ -2,6 +2,7 @@
 Skapad av Teeshk N, Henrik A & Simon B
 Kom åt koden här: https://codeshare.io/loKdpy
 '''
+import os
 
 class Person:
     def __init__(self, förnamn, efternamn, personnummer):
@@ -16,20 +17,13 @@ class Person:
         return f"{self.förnamn} {self.efternamn}, {self.personnummer}"
 
 
-class Lärare(Person):
-    def __init__(self, förnamn, efternamn, personnummer, roll):
-        super().__init__(förnamn, efternamn, personnummer)
-        self.roll = roll
-    def __str__(self):
-        return f"Namn: {self.förnamn} {self.efternamn} Personnr: {self.personnummer} Roll: {self.roll}"
-
 
 class Student(Person):
     def __init__(self, förnamn, efternamn, personnummer, roll):
         super().__init__(förnamn, efternamn, personnummer)
         self.roll = roll
     def __str__(self):
-        return f"Namn: {self.förnamn} {self.efternamn} Personnr: {self.personnummer}  Roll: {self.roll}"
+        return f"Namn: {self.förnamn} {self.efternamn} Personnr: {self.personnummer} Roll: {self.roll}"
 
 
 class School:
@@ -39,9 +33,39 @@ class School:
     
     def __init__(self):
         self.studenter = []
-        self.lärare = []
+        self.filnamn = None
+
+    def läs_in_från_fil(self):
+        if self.filnamn is None:
+            self.filnamn = input("Vad heter filen med alla studenter? ")
+            while not os.path.exists(self.filnamn):
+                print("Den filen fanns inte! Skriv in en ny fil: ")
+                self.filnamn = input()
+
+        with open(self.filnamn, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+            for i in range(0, len(lines), 3):
+                personnummer = lines[i].strip()
+                efternamn = lines[i+1].strip()
+                förnamn = lines[i+2].strip()
+                roll = 'student'
+                self.studenter.append(Student(förnamn, efternamn, personnummer, roll))
+    
+    def spara_till_fil(self, student):
+        if self.filnamn is not None:
+            print(f"Sparar student till fil: {student}")
+            with open(self.filnamn, 'a') as f:
+                f.write(f"{student.personnummer}\n{student.efternamn}\n{student.förnamn}\n")
 
     
+    def skriv_till_fil(self):
+        '''
+        Skriver om listan studenter till filen.
+        '''
+        with open(self.filnamn, 'w', encoding='utf-8') as f:
+            for student in self.studenter:
+                f.write(f"{student.personnummer}\n{student.efternamn}\n{student.förnamn}\n")
+
     def hämta_giltigt_personnummer(self):
         '''
         Funktion för att få ett korrekt skriver personnummer som inte används.
@@ -49,7 +73,7 @@ class School:
         while True:
             personnummer = input("Personnummer: ")
             personummer_använt = False
-            for lista in [self.studenter, self.lärare]:
+            for lista in [self.studenter]:
                 for person in lista:
                     if personnummer == person.personnummer:
                         personummer_använt = True
@@ -74,20 +98,13 @@ class School:
             else:
                 print("Välj ett namn som endast inehåller bokstäver, försök igen!")
         
-        while True:
-            lärare_eller_student = input("Är det en (l) lärare eller (s) student: ")    
-            if lärare_eller_student == "s":
-                roll = "student"
-                student = Student(förnamn, efternamn, personnummer, roll)
-                self.studenter.append(student)
-                break
-            elif lärare_eller_student == "l":
-                roll = "lärare"
-                student = Lärare(förnamn, efternamn, personnummer, roll)
-                self.lärare.append(student)
-                break
-            else:
-                print("Något blev fel, skriv l för lärare eller s för student, försök igen!")
+        student = Student(förnamn, efternamn, personnummer, 'student')
+        
+        
+        print(f"Lägger till student: {student}")
+
+
+        self.spara_till_fil(student)
                 
         print("""
         Personen tillagd!
@@ -95,13 +112,12 @@ class School:
 
     
     def visa_alla_personer(self):
+        self.studenter = []
+        self.läs_in_från_fil()
+
         print("Här är alla studenter på KTH:")
         for student in self.studenter:
             print(student)
-        
-        print("\nHär är alla lärare på KTH:")
-        for lärare in self.lärare:
-            print(lärare)
 
     
     def lägg_till_personer(self):
@@ -118,11 +134,12 @@ class School:
         Funktion för att ta bort en befintlig person.
         '''
         personnummer_att_ta_bort = input("Skriv in personnumret på objektet du vill ta bort: ")
-        for lista in [self.studenter, self.lärare]:
+        for lista in [self.studenter]:
             for person in lista:
                 if person.personnummer == personnummer_att_ta_bort:
                     lista.remove(person)
                     print(f"Objektet med personnummer {personnummer_att_ta_bort} har tagits bort!")
+                    self.skriv_till_fil() #Skriv om listan till filen
                     return
         print("Inget objekt med det personnumret hittades.")
 
@@ -132,7 +149,7 @@ class School:
         Funktion för att ändra en befintlig person.
         '''
         personnummer_ändra = input("Skriv in personnumret på personen du vill ändra: ")
-        for lista in [self.studenter, self.lärare]:
+        for lista in [self.studenter]:
             for person in lista:
                 if person.personnummer == personnummer_ändra:
                     val = input(f"Vill du ändra namn på {person.förnamn} {person.efternamn} (ja eller nej)?: ")
@@ -140,6 +157,7 @@ class School:
                         person.förnamn = input("Skriv in det nya förnamnet: ")
                         person.efternamn = input("Skriv in det nya efternamnet: ")
                         print(f"Nu är namnet för {person.personnummer} ändrat till {person.förnamn} {person.efternamn}!")
+                        self.skriv_till_fil()
                     else:
                         print("Inget ändrades.")
                     return
@@ -150,12 +168,12 @@ class School:
         '''
         Funktion för att söka efter en person.
         '''
-        if not self.studenter and not self.lärare:
+        if not self.studenter:
             print("Det finns inga personer att söka efter ännu.")
             return
         while True:
             sökt_person = input("Vad heter personen du söker efter?: ")
-            for lista in [self.studenter, self.lärare]:
+            for lista in [self.studenter]:
                 for person in lista:
                     if person.förnamn + " " + person.efternamn == sökt_person:
                         print(f"Namn: {person.förnamn} {person.efternamn} \nPersonnr: {person.personnummer} \nRoll: {person.roll}")
@@ -181,7 +199,6 @@ def läs_in_heltal(prompt):
             kommer funktionen att kasta ett ValueError och skriva ut ett felmeddelande.
             '''
 
-
 def main():
     '''
     Huvudfunktionen som kör tills användaren väljer att avsluta programmet.
@@ -190,6 +207,7 @@ def main():
     Efter varje operation visas alla sparade objekt.
     '''
     skola = School()
+    skola.läs_in_från_fil()
     while True:
         print("""
             Välj ett alternativ från menyn nedan:
@@ -223,7 +241,5 @@ def main():
     print("Här är alla studenter på KTH:")
     for student in skola.studenter:
         print(student)
-    print("\nHär är alla lärare på KTH:")
-    for lärare in skola.lärare:
-        print(lärare)
+
 main()
