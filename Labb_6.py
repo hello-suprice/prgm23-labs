@@ -36,6 +36,12 @@ class School:
         self.filnamn = None
 
     def läs_in_från_fil(self):
+        '''
+        Läser in studenter från en fil. Funktionen frågar användaren 
+        om filnamnet om det inte redan har angetts. Sedan läser den in 
+        varje rad från filen, skapar en ny Student för varje rad och lägger 
+        till dem i listan self.studenter.
+        '''
         if self.filnamn is None:
             self.filnamn = input("Vad heter filen med alla studenter? ")
             while not os.path.exists(self.filnamn):
@@ -52,6 +58,12 @@ class School:
                 self.studenter.append(Student(förnamn, efternamn, personnummer, roll))
     
     def spara_till_fil(self, student):
+        '''
+        Sparar en given student till filen. Funktionen öppnar filen i 'append'-läge och lägger till den nya studenten i slutet av filen.
+    
+        Args:
+            student (Student): Studentobjektet som ska sparas till filen.
+        '''
         if self.filnamn is not None:
             print(f"Sparar student till fil: {student}")
             with open(self.filnamn, 'a') as f:
@@ -60,7 +72,8 @@ class School:
     
     def skriv_till_fil(self):
         '''
-        Skriver om listan studenter till filen.
+        Skriver om listan av studenter till filen. Funktionen öppnar filen i 
+        'write'-läge och skriver om hela filen med den aktuella listan över studenter.
         '''
         with open(self.filnamn, 'w', encoding='utf-8') as f:
             for student in self.studenter:
