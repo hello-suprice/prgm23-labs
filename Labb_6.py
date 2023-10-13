@@ -125,6 +125,9 @@ class School:
 
     
     def visa_alla_personer(self):
+        '''
+        Funktion för att presentera alla personer från listan.
+        '''
         self.studenter = []
         self.läs_in_från_fil()
 
