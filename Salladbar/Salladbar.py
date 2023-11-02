@@ -1,3 +1,5 @@
+import os
+
 class Sallad:
     def __init__(self, namn, pris, ingredienser):
         self.namn = namn
@@ -6,15 +8,18 @@ class Sallad:
 
     def matchar(self, valda_ingredienser):
         # Kontrollera om denna sallad matchar de valda ingredienserna
-        pass
+        return self.ingredienser == set(valda_ingredienser)
 
     def lägg_till_ingrediens(self, ingrediens):
         # Lägg till en ingrediens till denna sallad
-        pass
+        self.ingredienser.add(ingrediens.namn)
+        self.pris += ingrediens.pris
 
     def ladda_sallader(self, filnamn):
         # Läs in sallader från fil och returnera en dictionary där nycklarna är salladnamnen
-        pass
+        with open(filnamn) as f:
+            return [Sallad(*line.strip().split(',')) for line in f]
+
 
 class Ingrediens:
     def __init__(self, namn, pris):
@@ -23,30 +28,36 @@ class Ingrediens:
 
     def ladda_ingredienser(self, filnamn):
         # Läs in ingredienser från fil och returnera en dictionary där nycklarna är ingrediensnamnen
-        pass
+        with open(filnamn) as f:
+            return {namn: Ingrediens(namn, pris) for namn, pris in (line.strip().split(',') for line in f)}
 
 def välj_ingredienser():
     # Låt användaren välja ingredienser
-    pass
+    return input("Vilka ingredienser vill du ha i din sallad? (separera med kommatecken) ").split(',')
 
 def hitta_matchande_sallader(sallader, valda_ingredienser):
     # Hitta matchande sallader baserat på valda ingredienser
-    pass
+    return [sallad for sallad in sallader if sallad.matchar(valda_ingredienser)]
 
 def välj_extra_ingredienser(ingredienser):
     # Låt användaren välja extra ingredienser
-    pass
+    return input("Vilka extra ingredienser vill du lägga till? (separera med kommatecken) ").split(',')
 
 def skriv_kvittot(sallad, filnamn):
     # Skriv ut kvitto till fil
-    pass
+    with open(filnamn, 'w') as f:
+        f.write(f"Sallad: {sallad.namn}\n")
+        f.write(f"Ingredienser: {', '.join(sallad.ingredienser)}\n")
+        f.write(f"Totalt pris: {sallad.pris}\n")
 
 def bearbeta_salladval(sallader, valda_ingredienser, ingredienser):
     matchande_sallader = hitta_matchande_sallader(sallader, valda_ingredienser)
     
     if matchande_sallader:
         # Visa alla matchande alternativ till användaren
-        pass
+        print("Här är de matchande salladerna:")
+        for sallad in matchande_sallader:
+            print(sallad.namn)
     else:
         närmaste_sallad = min(sallader, key=lambda sallad: len(set(valda_ingredienser) - set(sallad.ingredienser)))
 
