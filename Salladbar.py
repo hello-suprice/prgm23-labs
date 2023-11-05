@@ -1,10 +1,8 @@
-import os
-
 class Sallad:
-    def __init__(self, namn, pris, ingredienser):
+    def __init__(self, namn=None, pris=None, ingredienser=None):
         self.namn = namn
-        self.pris = pris
-        self.ingredienser = ingredienser
+        self.pris = pris if pris else 0
+        self.ingredienser = set(ingredienser) if ingredienser else set()
 
     def matchar(self, valda_ingredienser):
         # Kontrollera om denna sallad matchar de valda ingredienserna
@@ -16,9 +14,12 @@ class Sallad:
         self.pris += ingrediens.pris
 
     def ladda_sallader(self, filnamn):
-        # Läs in sallader från fil och returnera en dictionary där nycklarna är salladnamnen
+    # Läs in sallader från fil och returnera en dictionary där nycklarna är salladnamnen
         with open(filnamn) as f:
-            return [Sallad(*line.strip().split(',')) for line in f]
+            return {namn: Sallad(namn, pris, ingredienser.split()) for namn, pris, *ingredienser in (line.strip().split(',') for line in f)}
+
+        
+        
 
 
 class Ingrediens:
@@ -30,6 +31,7 @@ class Ingrediens:
         # Läs in ingredienser från fil och returnera en dictionary där nycklarna är ingrediensnamnen
         with open(filnamn) as f:
             return {namn: Ingrediens(namn, pris) for namn, pris in (line.strip().split(',') for line in f)}
+
 
 def välj_ingredienser():
     # Låt användaren välja ingredienser
@@ -72,14 +74,14 @@ def bearbeta_salladval(sallader, valda_ingredienser, ingredienser):
 
 def main():
     sallad = Sallad(None, None, None)
-    sallader = sallad.ladda_sallader("sallader.txt")
+    sallad.ladda_sallader("sallader.txt")
     
     ingrediens = Ingrediens(None, None)
-    ingredienser = ingrediens.ladda_ingredienser("ingredienser.txt")
+    ingrediens.ladda_ingredienser("ingredienser.txt")
 
     valda_ingredienser = välj_ingredienser()
 
-    bearbeta_salladval(sallader, valda_ingredienser, ingredienser)
+    bearbeta_salladval(sallad, valda_ingredienser, ingrediens)
 
 if __name__ == "__main__":
     main()
