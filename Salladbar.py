@@ -1,87 +1,82 @@
-class Sallad:
-    def __init__(self, namn=None, pris=None, ingredienser=None):
-        self.namn = namn
-        self.pris = pris if pris else 0
-        self.ingredienser = set(ingredienser) if ingredienser else set()
-
-    def matchar(self, valda_ingredienser):
-        # Kontrollera om denna sallad matchar de valda ingredienserna
-        return self.ingredienser == set(valda_ingredienser)
-
-    def lägg_till_ingrediens(self, ingrediens):
-        # Lägg till en ingrediens till denna sallad
-        self.ingredienser.add(ingrediens.namn)
-        self.pris += ingrediens.pris
-
-    def ladda_sallader(self, filnamn):
-    # Läs in sallader från fil och returnera en dictionary där nycklarna är salladnamnen
-        with open(filnamn) as f:
-            return {namn: Sallad(namn, pris, ingredienser.split()) for namn, pris, *ingredienser in (line.strip().split(',') for line in f)}
-
-        
-        
-
+import json 
 
 class Ingrediens:
-    def __init__(self, namn, pris):
-        self.namn = namn
-        self.pris = pris
+    '''
+    Representerar en ingrediens med namn och pris.
+    '''
+    def __init__(self, namn_ingrediens, ingrediens_pris):
+        self.namn_ingrediens = namn_ingrediens
+        self.ingrediens_pris = ingrediens_pris
 
-    def ladda_ingredienser(self, filnamn):
-        # Läs in ingredienser från fil och returnera en dictionary där nycklarna är ingrediensnamnen
-        with open(filnamn) as f:
-            return {namn: Ingrediens(namn, pris) for namn, pris in (line.strip().split(',') for line in f)}
+    def __str__(self):
+        return f"{self.namn_ingrediens} ({self.ingrediens_pris} kr)"
 
+class Sallad:
+    def __init__(self, namn_sallad, sallad_pris, ingredienser):
+        self.namn_sallad = namn_sallad
+        self.sallad_pris = sallad_pris
+        self.ingredienser = ingredienser 
 
-def välj_ingredienser():
-    # Låt användaren välja ingredienser
-    return input("Vilka ingredienser vill du ha i din sallad? (separera med kommatecken) ").split(',')
+    def __str__(self):
+        ingredienser_str = ', '.join(str(ingrediens) for ingrediens in self.ingredienser)
+        return f"{self.namn_sallad} ({self.sallad_pris} kr): {ingredienser_str}" 
 
-def hitta_matchande_sallader(sallader, valda_ingredienser):
-    # Hitta matchande sallader baserat på valda ingredienser
-    return [sallad for sallad in sallader if sallad.matchar(valda_ingredienser)]
+class Salladbar():
 
-def välj_extra_ingredienser(ingredienser):
-    # Låt användaren välja extra ingredienser
-    return input("Vilka extra ingredienser vill du lägga till? (separera med kommatecken) ").split(',')
-
-def skriv_kvittot(sallad, filnamn):
-    # Skriv ut kvitto till fil
-    with open(filnamn, 'w') as f:
-        f.write(f"Sallad: {sallad.namn}\n")
-        f.write(f"Ingredienser: {', '.join(sallad.ingredienser)}\n")
-        f.write(f"Totalt pris: {sallad.pris}\n")
-
-def bearbeta_salladval(sallader, valda_ingredienser, ingredienser):
-    matchande_sallader = hitta_matchande_sallader(sallader, valda_ingredienser)
+    def __init__(self):
+        self.sallader = []
+        self.ingreidenser = []
     
-    if matchande_sallader:
-        # Visa alla matchande alternativ till användaren
-        print("Här är de matchande salladerna:")
-        for sallad in matchande_sallader:
-            print(sallad.namn)
-    else:
-        närmaste_sallad = min(sallader, key=lambda sallad: len(set(valda_ingredienser) - set(sallad.ingredienser)))
-
-        extra_ingredienser = välj_extra_ingredienser(ingredienser)
+    def läs_in_sallader(self):
+        """
+        Läser in sallader från en JSON-fil och lagrar dem i en lista.
+        """
+        pass
         
-        for ingrediens_namn in extra_ingredienser:
-            ingrediens = next((i for i in ingredienser if i.namn == ingrediens_namn), None)
-            if ingrediens:
-                närmaste_sallad.lägg_till_ingrediens(ingrediens)
+    def läs_in_ingredienser(self):
+        """
+        Läser in ingredienser från en JSON-fil och lagrar dem i en lista.
+        """
+        pass
 
-        skriv_kvittot(närmaste_sallad, "kvitto.txt")
+    def välj_ingredienser(self):
+        """
+        Låter användaren välja ingredienser för sin sallad.
+        """
+        pass
+
+
+    def hitta_matchande_sallader(self, valda_ingredienser):
+        """
+        Hittar alla sallader som matchar de valda ingredienserna.
+        """
+        pass
+
+
+    def välj_extra_ingredienser(self):
+        """
+        Låter användaren välja extra ingredienser.
+        """
+        pass
+
+    def skriv_kvittot(self, vald_sallad, extra_ingredienser):
+        """
+        Skriver ut ett kvitto till en fil.
+        """
+        pass
+
+    def bearbeta_salladval(self):
+        """
+        Koordinerar de andra funktionerna för att bearbeta användarens salladval.
+        """
+        pass
 
 def main():
-    sallad = Sallad(None, None, None)
-    sallad.ladda_sallader("sallader.txt")
-    
-    ingrediens = Ingrediens(None, None)
-    ingrediens.ladda_ingredienser("ingredienser.txt")
-
-    valda_ingredienser = välj_ingredienser()
-
-    bearbeta_salladval(sallad, valda_ingredienser, ingrediens)
+    """
+    Huvudfunktionen som skapar en Salladbar-instans och bearbetar användarens salladval.
+    """
+    salladbar = Salladbar()
+    salladbar.bearbeta_salladval()
 
 if __name__ == "__main__":
     main()
