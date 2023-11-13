@@ -1,0 +1,86 @@
+[
+    {
+        "namn_ingrediens": "Isbergssallad",
+        "ingrediens_pris": 10
+    },
+    {
+        "namn_ingrediens": "Gurka",
+        "ingrediens_pris": 10
+    },
+    {
+        "namn_ingrediens": "Tomat",
+        "ingrediens_pris": 10
+    },
+    {
+        "namn_ingrediens": "Krutonger",
+        "ingrediens_pris": 15
+    },
+    {
+        "namn_ingrediens": "Parmesan",
+        "ingrediens_pris": 20
+    },
+    {
+        "namn_ingrediens": "Fetaost",
+        "ingrediens_pris": 25
+    },
+    {
+        "namn_ingrediens": "Oliver",
+        "ingrediens_pris": 30
+    },
+    {
+        "namn_ingrediens": "Rödbetshummus",
+        "ingrediens_pris": 15
+    },
+    {
+        "namn_ingrediens": "Quinoa",
+        "ingrediens_pris": 10
+    },
+    {
+        "namn_ingrediens": "Avokado",
+        "ingrediens_pris": 15
+    },
+    {
+        "namn_ingrediens": "Morot",
+        "ingrediens_pris": 10
+    },
+    {
+        "namn_ingrediens": "Broccoli",
+        "ingrediens_pris": 10
+    },
+    {
+        "namn_ingrediens": "Böngroddar",
+        "ingrediens_pris": 5
+    },
+    {
+        "namn_ingrediens": "Solroskärnor",
+        "ingrediens_pris": 5
+    },
+    {
+        "namn_ingrediens": "Vegofärs",
+        "ingrediens_pris": 20
+    },
+    {
+        "namn_ingrediens": "Ris",
+        "ingrediens_pris": 10
+    },
+    {
+        "namn_ingrediens": "Chipotlecrème",
+        "ingrediens_pris": 15
+    },
+    {
+        "namn_ingrediens": "Rödlök",
+        "ingrediens_pris": 10
+    },
+    {
+        "namn_ingrediens": "Mango",
+        "ingrediens_pris": 10
+    },
+    {
+        "namn_ingrediens": "Majschips",
+        "ingrediens_pris": 5
+    },
+    {
+        "namn_ingrediens": "Sallad",
+        "ingrediens_pris": 10
+    }
+]

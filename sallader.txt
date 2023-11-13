@@ -12,4 +12,4 @@ Grönsakslandet
 Sallad,Rödbetshummus,Quinoa,Avokado,Morot,Broccoli,Gurka,Böngroddar,Solroskärnor
 Mexicali
 122
-Sallad,Vegofärs,Ris,Chipotlecrème,Broccoliträd,Rödlök,Mango,Avokado,Majschips
+Sallad,Vegofärs,Ris,Chipotlecrème,Broccoli,Rödlök,Mango,Avokado,Majschips

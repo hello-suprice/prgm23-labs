@@ -1,0 +1,27 @@
+[
+    {
+        "namn_sallad": "Grönsallad",
+        "sallad_pris": 50,
+        "ingredienser": ["Isbergssallad", "Gurka", "Tomat", "Oliver"]
+    },
+    {
+        "namn_sallad": "Caesarsallad",
+        "sallad_pris": 75,
+        "ingredienser": ["Isbergssallad", "Krutonger", "Parmesan"]
+    },
+    {
+        "namn_sallad": "Grekisksallad",
+        "sallad_pris": 70,
+        "ingredienser": ["Isbergssallad", "Gurka", "Tomat", "Fetaost", "Oliver"]
+    },
+    {
+        "namn_sallad": "Grönsakslandet",
+        "sallad_pris": 110,
+        "ingredienser": ["Sallad", "Rödbetshummus", "Quinoa", "Avokado", "Morot", "Broccoli", "Gurka", "Böngroddar", "Solroskärnor"]
+    },
+    {
+        "namn_sallad": "Mexicali",
+        "sallad_pris": 122,
+        "ingredienser": ["Sallad", "Vegofärs", "Ris", "Chipotlecrème", "Broccoli", "Rödlök", "Mango", "Avokado", "Majschips"]
+    }
+]
