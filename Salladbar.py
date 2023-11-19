@@ -83,14 +83,26 @@ class Salladbar():
         """
         Hittar alla sallader som matchar de valda ingredienserna.
         """
+        
+
         valda_ingredienser_namn = [ingrediens.namn_ingrediens for ingrediens in valda_ingredienser]
+        '''
+        # Kontrollera om de valda ingredienserna finns i alla sallader
+        for sallad in self.sallader:
+            if not set(valda_ingredienser_namn).issubset(set(sallad.ingredienser)):
+                break
+        else:
+            print("Du har valt ingredienser som finns i alla sallader. Det finns ingen bästa matchande sallad.")
+            return None, None, None
+        '''
         perfekta_matchningar = [sallad for sallad in self.sallader if set(valda_ingredienser_namn) == set(sallad.ingredienser)]
 
         if perfekta_matchningar:
             print("Här är salladerna som matchar dina valda ingredienser:")
             for sallad in perfekta_matchningar:
                 print(sallad)
-                return perfekta_matchningar, None, None
+            return perfekta_matchningar, None, None
+
 
         else:
             bästa_match = None
@@ -127,13 +139,72 @@ class Salladbar():
         """
         Låter användaren välja extra ingredienser.
         """
-        pass
+        print("Här är alla tillgängliga ingredienser och deras priser:")
+        for i, ingrediens in enumerate(self.ingredienser, start=1):
+            print(f"{i}. {ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
 
-    def skriv_kvittot(self, vald_sallad, extra_ingredienser):
+        extra_ingredienser = []
+        val = input("Välj ingredienser att lägga till genom att ange deras nummer, separerade med kommatecken, eller skriv 'klar' när du är färdig: ")
+        if val.lower() != 'klar':
+            valda_nummer = val.split(',')
+            for nummer in valda_nummer:
+                if nummer.isdigit() and 1 <= int(nummer) <= len(self.ingredienser):
+                    extra_ingredienser.append(self.ingredienser[int(nummer) - 1])
+                else:
+                    print(f"Ogiltigt val: {nummer}. Försök igen.")
+
+        return extra_ingredienser
+
+    def skriv_kvittot(self, valda_ingredienser, extra_ingredienser, total_pris, perfekta_matchningar=None, bästa_match=None, kompletterande_ingredienser=None):
         """
-        Skriver ut ett kvitto till en fil.
+        Skriver ut ett kvitto med de valda ingredienserna, eventuella extra ingredienser, och det totala priset.
         """
-        pass
+        print("Här är ditt kvitto:")
+        print("Valda ingredienser:")
+        for ingrediens in valda_ingredienser:
+            print(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
+        if extra_ingredienser:
+            print("Extra ingredienser:")
+            for ingrediens in extra_ingredienser:
+                print(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
+        if perfekta_matchningar:
+            print("Perfekta matchningar:")
+            for sallad in perfekta_matchningar:
+                print(sallad.namn_sallad)
+        if bästa_match:
+            print(f"Bästa match: {bästa_match.namn_sallad}")
+        if kompletterande_ingredienser:
+            print("Kompletterande ingredienser:")
+            for ingrediens in kompletterande_ingredienser:
+                print(ingrediens)
+        print(f"Totalt pris: {total_pris} kr")
+
+    
+    def skriv_kvittot_till_fil(self, filnamn, valda_ingredienser, extra_ingredienser, total_pris, perfekta_matchningar=None, bästa_match=None, kompletterande_ingredienser=None):
+        """
+        Skriver ut ett kvitto med de valda ingredienserna, eventuella extra ingredienser, och det totala priset till en fil.
+        """
+        with open(filnamn, 'w', encoding='utf-8') as f:
+            f.write("Här är ditt kvitto:\n")
+            f.write("Valda ingredienser:\n")
+            for ingrediens in valda_ingredienser:
+                f.write(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr\n")
+            if extra_ingredienser:
+                f.write("Extra ingredienser:\n")
+                for ingrediens in extra_ingredienser:
+                    f.write(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr\n")
+            if perfekta_matchningar:
+                f.write("Perfekta matchningar:\n")
+                for sallad in perfekta_matchningar:
+                    f.write(f"{sallad.namn_sallad}\n")
+            if bästa_match:
+                f.write(f"Bästa match: {bästa_match.namn_sallad}\n")
+            if kompletterande_ingredienser:
+                f.write("Kompletterande ingredienser:\n")
+                for ingrediens in kompletterande_ingredienser:
+                    f.write(f"{ingrediens}\n")
+            f.write(f"Totalt pris: {total_pris} kr\n")
+
 
     def bearbeta_salladval(self):
         """
@@ -152,8 +223,21 @@ class Salladbar():
             val = input("Alternativ: ")
             if val.lower() == 'a':
                 valda_ingredienser = self.välj_ingredienser()
-                bästa_match, kompletterande_ingredienser, totalpris = self.hitta_matchande_sallader(valda_ingredienser)
-
+                matchningar, kompletterande_ingredienser, totalpris = self.hitta_matchande_sallader(valda_ingredienser)
+                extra_ingredienser = self.välj_extra_ingredienser()
+                print("""
+                Välj ett alternativ från menyn nedan:
+                (a) Skriv ut kvittot till skärmen.
+                (b) Skriv ut kvittot till en fil.
+                """)
+                val = input("Alternativ: ")
+                if val.lower() == 'a':
+                    self.skriv_kvittot(valda_ingredienser, extra_ingredienser, totalpris, matchningar, kompletterande_ingredienser)
+                elif val.lower() == 'b':
+                    filnamn = 'kvitto.txt'
+                    self.skriv_kvittot_till_fil(filnamn, valda_ingredienser, extra_ingredienser, totalpris, matchningar, kompletterande_ingredienser)
+                else:
+                    print("Ogiltigt val. Försök igen.")
             elif val.lower() == 'b':
                 break
             else:
