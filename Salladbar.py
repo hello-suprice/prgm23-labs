@@ -101,13 +101,14 @@ class Salladbar():
             print("Här är salladerna som matchar dina valda ingredienser:")
             for sallad in perfekta_matchningar:
                 print(sallad)
-            return perfekta_matchningar, None, None
+            total_pris = perfekta_matchningar[0].sallad_pris  # Priset för den perfekta matchningen
+            return perfekta_matchningar, None, total_pris
 
 
         else:
             bästa_match = None
             bästa_match_antal = 0
-            bästa_match_pris = float('inf')
+            bästa_match_pris = float('inf')   
             bästa_match_kompletterande_ingredienser = None
             for sallad in self.sallader:
                 matchande_ingredienser = set(valda_ingredienser_namn).intersection(set(sallad.ingredienser))
@@ -155,24 +156,27 @@ class Salladbar():
 
         return extra_ingredienser
 
-    def skriv_kvittot(self, valda_ingredienser, extra_ingredienser, total_pris, perfekta_matchningar=None, bästa_match=None, kompletterande_ingredienser=None):
+    def skriv_kvittot(self, valda_ingredienser, extra_ingredienser, total_pris, bästa_match=None, kompletterande_ingredienser=None):
         """
         Skriver ut ett kvitto med de valda ingredienserna, eventuella extra ingredienser, och det totala priset.
         """
         print("Här är ditt kvitto:")
-        print("Valda ingredienser:")
+        print("""
+              Valda ingredienser:
+              """)
         for ingrediens in valda_ingredienser:
             print(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
+    
         if extra_ingredienser:
             print("Extra ingredienser:")
             for ingrediens in extra_ingredienser:
                 print(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
-        if perfekta_matchningar:
-            print("Perfekta matchningar:")
-            for sallad in perfekta_matchningar:
-                print(sallad.namn_sallad)
+                total_pris += ingrediens.ingrediens_pris  # Lägg till priset för extra ingredienser till totalpriset
+        
         if bästa_match:
-            print(f"Bästa match: {bästa_match.namn_sallad}")
+            print("Bästa matchningar:")
+            for sallad in bästa_match:
+                print(sallad.namn_sallad)
         if kompletterande_ingredienser:
             print("Kompletterande ingredienser:")
             for ingrediens in kompletterande_ingredienser:
@@ -180,7 +184,7 @@ class Salladbar():
         print(f"Totalt pris: {total_pris} kr")
 
     
-    def skriv_kvittot_till_fil(self, filnamn, valda_ingredienser, extra_ingredienser, total_pris, perfekta_matchningar=None, bästa_match=None, kompletterande_ingredienser=None):
+    def skriv_kvittot_till_fil(self, filnamn, valda_ingredienser, extra_ingredienser, total_pris, bästa_matchning=None, kompletterande_ingredienser=None):
         """
         Skriver ut ett kvitto med de valda ingredienserna, eventuella extra ingredienser, och det totala priset till en fil.
         """
@@ -193,12 +197,11 @@ class Salladbar():
                 f.write("Extra ingredienser:\n")
                 for ingrediens in extra_ingredienser:
                     f.write(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr\n")
-            if perfekta_matchningar:
-                f.write("Perfekta matchningar:\n")
-                for sallad in perfekta_matchningar:
+            if bästa_matchning:
+                f.write("Bästa matchning:\n")
+                for sallad in bästa_matchning:
                     f.write(f"{sallad.namn_sallad}\n")
-            if bästa_match:
-                f.write(f"Bästa match: {bästa_match.namn_sallad}\n")
+            
             if kompletterande_ingredienser:
                 f.write("Kompletterande ingredienser:\n")
                 for ingrediens in kompletterande_ingredienser:
