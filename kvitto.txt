@@ -1,15 +1,20 @@
-Här är ditt kvitto:
+
+                    HÄR ÄR DITT KVITTO:
+                    
 Valda ingredienser:
 Avokado: 15 kr
+
 Bästa matchning:
 Grönsakslandet
+
 Kompletterande ingredienser:
-Morot
-Rödbetshummus
-Böngroddar
 Quinoa
-Solroskärnor
-Gurka
-Broccoli
 Sallad
+Rödbetshummus
+Morot
+Solroskärnor
+Broccoli
+Gurka
+Böngroddar
+
 Totalt pris: 110 kr
