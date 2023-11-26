@@ -1,0 +1,52 @@
+[
+    {
+        "namn_sallad": "Räksymfoni",
+        "sallad_pris": 55,
+        "ingredienser": ["Romsallad", "Räkor", "Citron", "Dill"]
+    },
+    {
+        "namn_sallad": "Mediterranean Delight",
+        "sallad_pris": 80,
+        "ingredienser": ["Ruccola", "Kalamata-oliver", "Körsbärstomater", "Fetaost", "Basilika"]
+    },
+    {
+        "namn_sallad": "Asiatisk Fusion",
+        "sallad_pris": 75,
+        "ingredienser": ["Salladsmix", "Edamamebönor", "Sesamfrön", "Soyavinägrett", "Wakame"]
+    },
+    {
+        "namn_sallad": "Vårgröns Harmony",
+        "sallad_pris": 115,
+        "ingredienser": ["Spetskål", "Grönkål", "Pistagenötter", "Granatäpple", "Ärtor", "Fänkål", "Limevinägrett"]
+    },
+    {
+        "namn_sallad": "Sydamerikansk Fiesta",
+        "sallad_pris": 130,
+        "ingredienser": ["Majs", "Svarta bönor", "Koriander", "Avocado", "Jalapeño", "Paprika", "Lime-chilidressing"]
+    },
+    {
+        "namn_sallad": "Mellansallad",
+        "sallad_pris": 60,
+        "ingredienser": ["Grönkål", "Rädisor", "Morötter", "Sesamfrön", "Ärtor"]
+    },
+    {
+        "namn_sallad": "Regnbågsmix",
+        "sallad_pris": 85,
+        "ingredienser": ["Rödkål", "Majs", "Kikärtor", "Avocado", "Pumpakärnor"]
+    },
+    {
+        "namn_sallad": "Sommarfräsch",
+        "sallad_pris": 70,
+        "ingredienser": ["Vattenmelon", "Fetaost", "Ruccola", "Rödlök", "Mynta"]
+    },
+    {
+        "namn_sallad": "Havets Skörd",
+        "sallad_pris": 120,
+        "ingredienser": ["Salladsmix", "Lax", "Räkor", "Blåmusslor", "Alger"]
+    },
+    {
+        "namn_sallad": "Syrlig Fiesta",
+        "sallad_pris": 135,
+        "ingredienser": ["Ananas", "Kyckling", "Svarta bönor", "Koriander", "Lime-chilisås"]
+    }
+]

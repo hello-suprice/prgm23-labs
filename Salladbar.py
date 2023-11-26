@@ -27,12 +27,12 @@ class Salladbar():
         self.sallader = []
         self.ingredienser = []
     
-    def läs_in_sallader(self):
+    def läs_in_sallader(self, filnamn_sallader):
         """
         Läser in sallader från en JSON-fil och lagrar dem i en lista.
         """
         try:
-            with open('sallader.json', 'r', encoding='utf-8') as f:
+            with open(filnamn_sallader, 'r', encoding='utf-8') as f:
                 sallader_data = json.load(f)
                 for sallad_data in sallader_data:
                     namn_sallad = sallad_data["namn_sallad"]
@@ -42,12 +42,12 @@ class Salladbar():
         except FileNotFoundError:
             print("Kunde inte hitta filen 'sallader.json'. Kontrollera att filen finns och försök igen.")
         
-    def läs_in_ingredienser(self):
+    def läs_in_ingredienser(self, filnamn_ingredienser):
         """
         Läser in ingredienser från en JSON-fil och lagrar dem i en lista.
         """
         try:
-            with open('ingredienser.json', 'r', encoding='utf-8') as f:
+            with open(filnamn_ingredienser, 'r', encoding='utf-8') as f:
                 ingredienser_data = json.load(f)
                 for ingrediens_data in ingredienser_data:
                     namn_ingrediens = ingrediens_data["namn_ingrediens"]
@@ -240,13 +240,30 @@ class Salladbar():
                     f.write(f"{ingrediens}\n")
             f.write(f"\nTotalt pris: {total_pris} kr\n")
 
+    def visa_huvudmeny(self):
+        """
+        Visar huvudmenyn och låter användaren välja vilken salladsbar de vill besöka.
+        """
+        print("Välkommen! Välj vilken salladsbar du vill besöka:")
+        print("1. Kalle på hörnet")
+        print("2. Citysallad")
+        # Lägga till fler alternativ här om man har fler salladsbarer
+
+        while True:
+            val = input()
+            if val == '1':
+                return 'sallader.json', 'ingredienser.json'
+            elif val == '2':
+                return 'sallader_Citysallad.json', 'ingredienser_Citysallad.json'
+            # Lägga till fler elif-satser om man har fler salladsbarer
+            else:
+                print("Ogiltigt val. Försök igen.")
 
     def bearbeta_salladval(self):
         """
         Koordinerar de andra funktionerna för att bearbeta användarens salladval.
         """
-        self.läs_in_sallader()
-        self.läs_in_ingredienser()
+        
 
         while True:
             print("""
@@ -277,6 +294,9 @@ def main():
     Huvudfunktionen som skapar en Salladbar-instans och bearbetar användarens salladval.
     """
     salladbar = Salladbar()
+    filnamn_sallader, filnamn_ingredienser = salladbar.visa_huvudmeny()
+    salladbar.läs_in_sallader(filnamn_sallader)
+    salladbar.läs_in_ingredienser(filnamn_ingredienser)
     salladbar.bearbeta_salladval()
 
 if __name__ == "__main__":
