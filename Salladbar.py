@@ -87,18 +87,17 @@ class Salladbar():
         """
         Hittar alla sallader som matchar de valda ingredienserna.
         """
-        
-
         valda_ingredienser_namn = [ingrediens.namn_ingrediens for ingrediens in valda_ingredienser]
-        '''
+        
         # Kontrollera om de valda ingredienserna finns i alla sallader
-        for sallad in self.sallader:
-            if not set(valda_ingredienser_namn).issubset(set(sallad.ingredienser)):
-                break
-        else:
+        """
+        if all(set(valda_ingredienser_namn).issubset(set(sallad.ingredienser)) for sallad in self.sallader):
             print("Du har valt ingredienser som finns i alla sallader. Det finns ingen bästa matchande sallad.")
-            return None, None, None
-        '''
+            total_pris = sum(ingrediens.ingrediens_pris for ingrediens in valda_ingredienser)
+            print(f"Totalkostnaden blir {total_pris} kr.")
+            return self.sallader, None, total_pris
+        """
+       
         perfekta_matchningar = [sallad for sallad in self.sallader if set(valda_ingredienser_namn) == set(sallad.ingredienser)]
 
         if perfekta_matchningar:
@@ -107,7 +106,6 @@ class Salladbar():
                 print(sallad)
             total_pris = perfekta_matchningar[0].sallad_pris  # Priset för den perfekta matchningen
             return perfekta_matchningar, None, total_pris
-
 
         else:
             bästa_match = None
@@ -123,6 +121,14 @@ class Salladbar():
                     bästa_match_antal = len(matchande_ingredienser)
                     bästa_match_pris = sallad.sallad_pris
                     bästa_match_kompletterande_ingredienser = kompletterande_ingredienser
+
+            if not kompletterande_ingredienser:
+                print(f"Bästa matchande sallad är {bästa_match.namn_sallad} med priset {bästa_match.sallad_pris} kr.")
+                print("Du behöver inte lägga till några kompletterande ingredienser eftersom du redan har alla ingredienser i denna sallad.")
+                valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in valda_ingredienser if ingrediens.namn_ingrediens not in bästa_match.ingredienser)
+                bästa_match_pris += valda_ingredienser_pris
+                print(f"Totalkostnaden blir {bästa_match_pris} kr.")
+                return [bästa_match], None, bästa_match_pris
 
             print(f"Bästa matchande sallad är {bästa_match.namn_sallad} med priset {bästa_match.sallad_pris} kr.")
             print(f"Du kan lägga till dessa ingredienser: {', '.join(bästa_match_kompletterande_ingredienser)}")
@@ -149,10 +155,10 @@ class Salladbar():
         print("Här är alla tillgängliga ingredienser och deras priser:")
         for i, ingrediens in enumerate(self.ingredienser, start=1):
             print(f"{i}. {ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
-
+        
+        print("Välj ingredienser att lägga till genom att ange deras nummer, separerade med kommatecken, eller skriv 'klar' när du är färdig: ")
+        extra_ingredienser = []  # Definiera extra_ingredienser som en tom lista före loopen
         while True:
-
-            print("Välj ingredienser att lägga till genom att ange deras nummer, separerade med kommatecken, eller skriv 'klar' när du är färdig: ")
 
             val = input()
             
@@ -168,11 +174,15 @@ class Salladbar():
                 for nummer in valda_nummer:
                     if not nummer.isdigit() or not 1 <= int(nummer) <= len(self.ingredienser):
                         raise ValueError
+                extra_ingredienser = [ingrediens for i, ingrediens in enumerate(self.ingredienser, start=1) if str(i) in valda_nummer]
                 break
             except ValueError:
-                print(f"Ogiltigt inmatning {nummer}. Ange numren för dina valda ingredienser, separerade med kommatecken.")
+                print(f"""
+                      Ogiltigt inmatning {nummer}. Ange numren för dina valda ingredienser, 
+                      separerade med kommatecken eller skriv 'klar' om du inte vill ha extra ingredienser.
+                      """)
         
-        extra_ingredienser = [ingrediens for i, ingrediens in enumerate(self.ingredienser, start=1) if str(i) in valda_nummer]
+        
         return extra_ingredienser
 
     def skriv_kvittot(self, valda_ingredienser, extra_ingredienser, total_pris, bästa_match=None, kompletterande_ingredienser=None):

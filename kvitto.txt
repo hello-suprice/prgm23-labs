@@ -1,10 +1,15 @@
 Här är ditt kvitto:
 Valda ingredienser:
-Isbergssallad: 10 kr
-Krutonger: 15 kr
-Parmesan: 20 kr
-Extra ingredienser:
-Morot: 10 kr
+Avokado: 15 kr
 Bästa matchning:
-Caesarsallad
-Totalt pris: 75 kr
+Grönsakslandet
+Kompletterande ingredienser:
+Morot
+Rödbetshummus
+Böngroddar
+Quinoa
+Solroskärnor
+Gurka
+Broccoli
+Sallad
+Totalt pris: 110 kr
