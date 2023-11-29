@@ -131,7 +131,6 @@ class Salladbar():
             for sallad in self.sallader:
                 matchande_ingredienser = set(valda_ingredienser_namn).intersection(set(sallad.ingredienser))
                 kompletterande_ingredienser = set(sallad.ingredienser) - set(valda_ingredienser_namn)
-                kompletterande_pris = sum([ingrediens.ingrediens_pris for ingrediens in self.ingredienser if ingrediens.namn_ingrediens in kompletterande_ingredienser])
                 
                 # Uppdaterar variabler om en bättre matchande sallad hittas
                 if len(matchande_ingredienser) > bästa_match_antal or (len(matchande_ingredienser) == bästa_match_antal and sallad.sallad_pris  < bästa_match_pris):
