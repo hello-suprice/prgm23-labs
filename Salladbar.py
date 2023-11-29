@@ -302,7 +302,7 @@ class Salladbar():
         while True:
             val = input()
             if val == '1':
-                return 'sallader.json', 'ingredienser.json'
+                return 'sallader*_KallePåHörnet.json', 'ingredienser_KallePåHörnet.json'
             elif val == '2':
                 return 'sallader_Citysallad.json', 'ingredienser_Citysallad.json'
             # Lägga till fler elif-satser om man har fler salladsbarer
