@@ -1,4 +1,5 @@
 import json 
+import sys
 
 class Ingrediens:
     '''
@@ -41,6 +42,7 @@ class Salladbar():
                     self.sallader.append(Sallad(namn_sallad, sallad_pris, ingredienser))
         except FileNotFoundError:
             print("Kunde inte hitta filen 'sallader.json'. Kontrollera att filen finns och försök igen.")
+            sys.exit(1)  # Avsluta programmet med felkoden 1
         
     def läs_in_ingredienser(self, filnamn_ingredienser):
         """
@@ -55,6 +57,7 @@ class Salladbar():
                     self.ingredienser.append(Ingrediens(namn_ingrediens, ingreidens_pris))
         except FileNotFoundError:
             print("Kunde inte hitta filen 'ingredienser.json'. Kontrollera att filen finns och försök igen.")
+            sys.exit(1)  # Avsluta programmet med felkoden 1
 
     def rens_listor(self):
         """
@@ -302,7 +305,7 @@ class Salladbar():
         while True:
             val = input()
             if val == '1':
-                return 'sallader*_KallePåHörnet.json', 'ingredienser_KallePåHörnet.json'
+                return 'sallader_KallePåHörnet.json', 'ingredienser_KallePåHörnet.json'
             elif val == '2':
                 return 'sallader_Citysallad.json', 'ingredienser_Citysallad.json'
             # Lägga till fler elif-satser om man har fler salladsbarer
