@@ -68,60 +68,82 @@ class Salladbar():
         Låter användaren välja ingredienser för sin sallad.
         """
         
+        # Skriver ut en numerisk lista av tillgängliga ingredienser
         for i, ingrediens in enumerate(self.ingredienser, start=1):   # https://www.geeksforgeeks.org/enumerate-in-python/
             print(f"{i}. {ingrediens}")
         print("Välj dina ingredienser:")
+        
+        # Loopar tills användaren ger en giltig inmatning
         while True:
+
+            # Läser in användarens inmatning och separerar den med kommatecken
             kontroll_nummer = input().split(',')
             valda_nummer = set(kontroll_nummer)
+            
+            # Kollar om användaren valt samma ingrediens flera gånger
             if len(kontroll_nummer) != len(valda_nummer):
                 print("Ogiltigt val. Du har valt samma nummer flera gånger")
                 continue
             try: 
+                # Kontrollerar om användarens val är giltiga nummer och ligger inom gränserna av tillgängliga ingredienser
                 for nummer in valda_nummer:
                     if not nummer.isdigit() or not 1 <= int(nummer) <= len(self.ingredienser):
                         raise ValueError
                 break
             except ValueError:
+                # Om valen är ogiltiga, meddelar användaren och ber att göra om valet
                 print("Ogiltigt inmatning. Ange numren för dina valda ingredienser, separerade med kommatecken.")
         
-        
+        # Skapar en lista av valda ingredienser baserat på användarens inmatning
         valda_ingredienser = [ingrediens for i, ingrediens in enumerate(self.ingredienser, start=1) if str(i) in valda_nummer]
-        return valda_ingredienser
+        
+        return valda_ingredienser # Returnerar listan med användarens valda ingredienser
 
 
     def hitta_matchande_sallader(self, valda_ingredienser):
         """
         Hittar alla sallader som matchar de valda ingredienserna.
         """
+        # Skapar en lista med namnen på de valda ingredienserna
         valda_ingredienser_namn = [ingrediens.namn_ingrediens for ingrediens in valda_ingredienser]
-       
-        perfekta_matchningar = [sallad for sallad in self.sallader if set(valda_ingredienser_namn) == set(sallad.ingredienser)]
 
+        # Letar efter perfekta matchningar där ingredienserna exakt matchar salladens ingredienser
+        perfekta_matchningar = [sallad for sallad in self.sallader if set(valda_ingredienser_namn) == set(sallad.ingredienser)]
+        
+        # Om det finns perfekta matchningar
         if perfekta_matchningar:
+            # Skriver ut perfekta matchande sallader och beräknar totalpriset för den första matchningen
             print("\nHär är salladen som exakt matchar din valda ingredienser:")
             for sallad in perfekta_matchningar:
                 print(sallad)
             total_pris = perfekta_matchningar[0].sallad_pris  # Priset för den perfekta matchningen
             return perfekta_matchningar, None, total_pris
 
+        # Om det inte finns perfekta matchningar
         else:
+            # Initialiserar variabler för att spåra bästa matchande salladen
             bästa_match = None
             bästa_match_antal = 0
             bästa_match_pris = float('inf')   
             bästa_match_kompletterande_ingredienser = None
+
+            # Loopar genom alla sallader för att hitta den bästa matchningen
             for sallad in self.sallader:
                 matchande_ingredienser = set(valda_ingredienser_namn).intersection(set(sallad.ingredienser))
                 kompletterande_ingredienser = set(sallad.ingredienser) - set(valda_ingredienser_namn)
                 kompletterande_pris = sum([ingrediens.ingrediens_pris for ingrediens in self.ingredienser if ingrediens.namn_ingrediens in kompletterande_ingredienser])
+                
+                # Uppdaterar variabler om en bättre matchande sallad hittas
                 if len(matchande_ingredienser) > bästa_match_antal or (len(matchande_ingredienser) == bästa_match_antal and sallad.sallad_pris  < bästa_match_pris):
                     bästa_match = sallad
                     bästa_match_antal = len(matchande_ingredienser)
                     bästa_match_pris = sallad.sallad_pris
                     bästa_match_kompletterande_ingredienser = kompletterande_ingredienser
-
+            
+            # Beräknar priset för de valda ingredienserna som inte redan finns i den bästa matchande salladen
             valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in valda_ingredienser if ingrediens.namn_ingrediens not in bästa_match.ingredienser)
 
+            # Om det inte finns några kompletterande ingredienser att lägga till
             if not bästa_match_kompletterande_ingredienser:
                 print(f"\nBästa matchande sallad är {bästa_match.namn_sallad} med priset {bästa_match.sallad_pris} kr.")
                 print("Du behöver inte lägga till några kompletterande ingredienser eftersom du redan har alla ingredienser i denna sallad.")
@@ -129,10 +151,12 @@ class Salladbar():
                 bästa_match_pris += valda_ingredienser_pris
                 print(f"Totalkostnaden blir {bästa_match_pris} kr.\n")
                 return [bästa_match], None, bästa_match_pris
-
+            
+            # Om det finns kompletterande ingredienser att lägga till
             print(f"Bästa matchande sallad är {bästa_match.namn_sallad} med priset {bästa_match.sallad_pris} kr.")
             print(f"Du kan lägga till dessa ingredienser: {', '.join(bästa_match_kompletterande_ingredienser)}")
 
+            # Användarinteraktion för att lägga till kompletterande ingredienser
             while True:
                 svar = input("Vill du lägga till de kompletterande ingredienserna? (ja/nej) ")
                 if svar.lower() == 'ja':
