@@ -56,6 +56,13 @@ class Salladbar():
         except FileNotFoundError:
             print("Kunde inte hitta filen 'ingredienser.json'. Kontrollera att filen finns och försök igen.")
 
+    def rens_listor(self):
+        """
+        Rensar listorna för sallader och ingredienser.
+        """
+        self.sallader.clear()
+        self.ingredienser.clear()
+
     def välj_ingredienser(self):
         """
         Låter användaren välja ingredienser för sin sallad.
@@ -88,20 +95,11 @@ class Salladbar():
         Hittar alla sallader som matchar de valda ingredienserna.
         """
         valda_ingredienser_namn = [ingrediens.namn_ingrediens for ingrediens in valda_ingredienser]
-        
-        # Kontrollera om de valda ingredienserna finns i alla sallader
-        """
-        if all(set(valda_ingredienser_namn).issubset(set(sallad.ingredienser)) for sallad in self.sallader):
-            print("Du har valt ingredienser som finns i alla sallader. Det finns ingen bästa matchande sallad.")
-            total_pris = sum(ingrediens.ingrediens_pris for ingrediens in valda_ingredienser)
-            print(f"Totalkostnaden blir {total_pris} kr.")
-            return self.sallader, None, total_pris
-        """
        
         perfekta_matchningar = [sallad for sallad in self.sallader if set(valda_ingredienser_namn) == set(sallad.ingredienser)]
 
         if perfekta_matchningar:
-            print("Här är salladerna som matchar dina valda ingredienser:")
+            print("\nHär är salladen som exakt matchar din valda ingredienser:")
             for sallad in perfekta_matchningar:
                 print(sallad)
             total_pris = perfekta_matchningar[0].sallad_pris  # Priset för den perfekta matchningen
@@ -116,18 +114,20 @@ class Salladbar():
                 matchande_ingredienser = set(valda_ingredienser_namn).intersection(set(sallad.ingredienser))
                 kompletterande_ingredienser = set(sallad.ingredienser) - set(valda_ingredienser_namn)
                 kompletterande_pris = sum([ingrediens.ingrediens_pris for ingrediens in self.ingredienser if ingrediens.namn_ingrediens in kompletterande_ingredienser])
-                if len(matchande_ingredienser) > bästa_match_antal or (len(matchande_ingredienser) == bästa_match_antal and sallad.sallad_pris + kompletterande_pris < bästa_match_pris and not kompletterande_ingredienser):
+                if len(matchande_ingredienser) > bästa_match_antal or (len(matchande_ingredienser) == bästa_match_antal and sallad.sallad_pris  < bästa_match_pris):
                     bästa_match = sallad
                     bästa_match_antal = len(matchande_ingredienser)
                     bästa_match_pris = sallad.sallad_pris
                     bästa_match_kompletterande_ingredienser = kompletterande_ingredienser
 
-            if not kompletterande_ingredienser:
-                print(f"Bästa matchande sallad är {bästa_match.namn_sallad} med priset {bästa_match.sallad_pris} kr.")
+            valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in valda_ingredienser if ingrediens.namn_ingrediens not in bästa_match.ingredienser)
+
+            if not bästa_match_kompletterande_ingredienser:
+                print(f"\nBästa matchande sallad är {bästa_match.namn_sallad} med priset {bästa_match.sallad_pris} kr.")
                 print("Du behöver inte lägga till några kompletterande ingredienser eftersom du redan har alla ingredienser i denna sallad.")
-                valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in valda_ingredienser if ingrediens.namn_ingrediens not in bästa_match.ingredienser)
+                
                 bästa_match_pris += valda_ingredienser_pris
-                print(f"Totalkostnaden blir {bästa_match_pris} kr.")
+                print(f"Totalkostnaden blir {bästa_match_pris} kr.\n")
                 return [bästa_match], None, bästa_match_pris
 
             print(f"Bästa matchande sallad är {bästa_match.namn_sallad} med priset {bästa_match.sallad_pris} kr.")
@@ -136,14 +136,13 @@ class Salladbar():
             while True:
                 svar = input("Vill du lägga till de kompletterande ingredienserna? (ja/nej) ")
                 if svar.lower() == 'ja':
-                    valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in valda_ingredienser if ingrediens.namn_ingrediens not in bästa_match.ingredienser)
                     bästa_match_pris += valda_ingredienser_pris
-                    print(f"Totalkostnaden blir {bästa_match_pris} kr.")
+                    print(f"Totalkostnaden blir {bästa_match_pris} kr.\n")
                     return [bästa_match], bästa_match_kompletterande_ingredienser, bästa_match_pris
                 elif svar.lower() == 'nej':
-                    valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in valda_ingredienser)
-                    print(f"Totalkostnaden blir {valda_ingredienser_pris} kr.")
-                    return [bästa_match], None, valda_ingredienser_pris
+                    bara_valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in valda_ingredienser)
+                    print(f"Totalkostnaden blir {bara_valda_ingredienser_pris} kr.\n")
+                    return [bästa_match], None, bara_valda_ingredienser_pris
                 else:
                     print("Skriv ett lämpligt svar ja eller nej!")
 
@@ -152,11 +151,15 @@ class Salladbar():
         """
         Låter användaren välja extra ingredienser.
         """
-        print("Här är alla tillgängliga ingredienser och deras priser:")
+        print("\nHär är alla tillgängliga extra ingredienser och deras priser:")
         for i, ingrediens in enumerate(self.ingredienser, start=1):
             print(f"{i}. {ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
         
-        print("Välj ingredienser att lägga till genom att ange deras nummer, separerade med kommatecken, eller skriv 'klar' när du är färdig: ")
+        print("""
+              Välj extra ingredienser att lägga till genom att ange deras nummer, 
+              separerade med kommatecken, eller skriv 'klar' om du inte vill ha 
+              extra ingredienser: 
+              """)
         extra_ingredienser = []  # Definiera extra_ingredienser som en tom lista före loopen
         while True:
 
@@ -197,15 +200,15 @@ class Salladbar():
             print(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
     
         if extra_ingredienser:
-            print("Extra ingredienser:")
+            print("\nExtra ingredienser:")
             for ingrediens in extra_ingredienser:
                 print(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
                 total_pris += ingrediens.ingrediens_pris  # Lägg till priset för extra ingredienser till totalpriset
         
         if bästa_match:
-            print("\nBästa matchningar:")
+            print("\nBästa matchning:")
             for sallad in bästa_match:
-                print(sallad.namn_sallad)
+                print(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr")
         if kompletterande_ingredienser:
             print("\nKompletterande ingredienser:")
             for ingrediens in kompletterande_ingredienser:
@@ -264,12 +267,13 @@ class Salladbar():
         Koordinerar de andra funktionerna för att bearbeta användarens salladval.
         """
         
-
+        
         while True:
             print("""
                 Välj ett alternativ från menyn nedan:
                 (a) Skapa en egen sallad.
-                (b) Avsluta programmet.
+                (b) Byta salladbar.
+                (c) Avsluta programmet
                 """)
 
             val = input("Alternativ: ")
@@ -284,6 +288,12 @@ class Salladbar():
                 
                 
             elif val.lower() == 'b':
+                self.rens_listor()
+                filnamn_sallader, filnamn_ingredienser = self.visa_huvudmeny()
+                self.läs_in_sallader(filnamn_sallader)
+                self.läs_in_ingredienser(filnamn_ingredienser)
+
+            elif val.lower() == 'c':
                 break
             else:
                 print("Ogiltigt val. Försök igen.")
