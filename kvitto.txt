@@ -3,8 +3,18 @@
                     
 Valda ingredienser:
 Isbergssallad: 10 kr
+Tomat: 10 kr
+Krutonger: 15 kr
+Parmesan: 20 kr
+Oliver: 30 kr
+
+Extra ingredienser:
+Morot: 10 kr
 
 Bästa matchning:
 Grönsallad
 
-Totalt pris: 10 kr
+Kompletterande ingredienser:
+Gurka
+
+Totalt pris: 95 kr

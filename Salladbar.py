@@ -41,7 +41,7 @@ class Salladbar():
                     ingredienser = sallad_data["ingredienser"]
                     self.sallader.append(Sallad(namn_sallad, sallad_pris, ingredienser))
         except FileNotFoundError:
-            print("Kunde inte hitta filen 'sallader.json'. Kontrollera att filen finns och försök igen.")
+            print("Kunde inte hitta filen json filen för sallader. Kontrollera att filen finns och försök igen.")
             sys.exit(1)  # Avsluta programmet med felkoden 1
         
     def läs_in_ingredienser(self, filnamn_ingredienser):
@@ -56,7 +56,7 @@ class Salladbar():
                     ingreidens_pris = ingrediens_data["ingrediens_pris"]
                     self.ingredienser.append(Ingrediens(namn_ingrediens, ingreidens_pris))
         except FileNotFoundError:
-            print("Kunde inte hitta filen 'ingredienser.json'. Kontrollera att filen finns och försök igen.")
+            print("Kunde inte hitta json filen för ingredienser. Kontrollera att filen finns och försök igen.")
             sys.exit(1)  # Avsluta programmet med felkoden 1
 
     def rens_listor(self):
