@@ -232,37 +232,7 @@ class Salladbar():
         
         return extra_ingredienser
 
-    def skriv_kvittot(self, valda_ingredienser, extra_ingredienser, total_pris, bästa_match, kompletterande_ingredienser=None):
-        '''
-        Skriver ut ett kvitto med de valda ingredienserna, eventuella extra ingredienser, och det totala priset.
-        '''
-        print("""
-              HÄR ÄR DITT KVITTO: \n
-              """)
-        
-        print("Valda ingredienser:")
-        for ingrediens in valda_ingredienser:
-            print(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
-            
-        if extra_ingredienser:
-            print("\nExtra ingredienser:")
-            for ingrediens in extra_ingredienser:
-                print(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
-                total_pris += ingrediens.ingrediens_pris  
-        
-        print("\nBästa matchning:")
-        for sallad in bästa_match:
-            print(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr")
-
-        if kompletterande_ingredienser:
-            print("\nKompletterande ingredienser:")
-            for ingrediens in kompletterande_ingredienser:
-                print(ingrediens)
-        
-        print(f"\nTotalt pris: {total_pris} kr")
-
-    
-    def skriv_kvittot_till_fil(self, filnamn, valda_ingredienser, extra_ingredienser, total_pris, bästa_matchning, kompletterande_ingredienser=None):
+    def skriv_kvittot_till_fil_terminal(self, filnamn, valda_ingredienser, extra_ingredienser, total_pris, bästa_matchning, kompletterande_ingredienser=None):
         '''
         Skriver ut ett kvitto med de valda ingredienserna, eventuella extra ingredienser, och det totala priset till en fil.
         '''
@@ -270,25 +240,35 @@ class Salladbar():
             f.write("""
                     HÄR ÄR DITT KVITTO:
                     """)
+            print("""
+              HÄR ÄR DITT KVITTO: \n
+              """)
             
             f.write("\nValda ingredienser:\n")
+            print("Valda ingredienser:")
             for ingrediens in valda_ingredienser:
                 f.write(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr\n")
+                print(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
 
             if extra_ingredienser:
                 f.write("\nExtra ingredienser:\n")
+                print("\nExtra ingredienser:")
                 for ingrediens in extra_ingredienser:
                     f.write(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr\n")
+                    print(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
                     total_pris += ingrediens.ingrediens_pris
             
             f.write("\nBästa matchning:\n")
             for sallad in bästa_matchning:
-                f.write(f"{sallad.namn_sallad}\n")
+                f.write(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr\n")
+                print(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr")
             
             if kompletterande_ingredienser:
                 f.write("\nKompletterande ingredienser:\n")
+                print("\nKompletterande ingredienser:")
                 for ingrediens in kompletterande_ingredienser:
                     f.write(f"{ingrediens}\n")
+                    print(ingrediens)
             
             f.write(f"\nTotalt pris: {total_pris} kr\n")
 
@@ -334,7 +314,6 @@ class Salladbar():
                 '''
                 Skriver ut kvittot för användarens val av sallad och sparar informationen i en fil
                 '''
-                self.skriv_kvittot(valda_ingredienser, extra_ingredienser, totalpris, matchningar, kompletterande_ingredienser)
                 filnamn = 'kvitto.txt'
                 self.skriv_kvittot_till_fil(filnamn, valda_ingredienser, extra_ingredienser, totalpris, matchningar, kompletterande_ingredienser)
                 
