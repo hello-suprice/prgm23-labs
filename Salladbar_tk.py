@@ -174,6 +174,11 @@ class SaladApp:
         valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in selected_ingredients if ingrediens.namn_ingrediens not in bästa_match.ingredienser)
 
         if not bästa_match_kompletterande_ingredienser:
+
+            add_button.pack_forget()
+            cancel_button.pack_forget()
+            continue_button.pack()
+
             text_output.insert(tk.END, f"Bästa matchande sallad är {bästa_match.namn_sallad} med priset {bästa_match.sallad_pris} kr.\n")
             text_output.insert(tk.END, "Du behöver inte lägga till några kompletterande ingredienser eftersom du redan har alla ingredienser i denna sallad.\n")
 
@@ -185,21 +190,96 @@ class SaladApp:
         text_output.insert(tk.END, f"Du kan lägga till dessa ingredienser: {', '.join(bästa_match_kompletterande_ingredienser)}\n")
 
         def add_additional_ingredients():
+
+            add_button.pack_forget()
+            cancel_button.pack_forget()
+            continue_button.pack()
+
             nonlocal bästa_match_pris
             bästa_match_pris += valda_ingredienser_pris
             text_output.insert(tk.END, f"Totalkostnaden blir {bästa_match_pris} kr.\n")
             return [bästa_match], bästa_match_kompletterande_ingredienser, bästa_match_pris
 
         def cancel():
+
+            add_button.pack_forget()
+            cancel_button.pack_forget()
+            continue_button.pack()
+
             bara_valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in selected_ingredients)
             text_output.insert(tk.END, f"Totalkostnaden blir {bara_valda_ingredienser_pris} kr.\n")
             return [bästa_match], None, bara_valda_ingredienser_pris
+            
+
+        def continue_extra():
+            self.choose_extra_ingredients()
 
         add_button = tk.Button(self.current_frame, text="Lägg till", command=add_additional_ingredients)
         add_button.pack()
 
-        cancel_button = tk.Button(self.current_frame, text="Avbryt", command=cancel)
+        cancel_button = tk.Button(self.current_frame, text="Nej", command=cancel)
         cancel_button.pack()
+
+        continue_button = tk.Button(self.current_frame, text="Fortsätt", command=continue_extra)
+       
+
+    def choose_extra_ingredients(self):
+        self.clear_frame()
+
+        # Skapa ett nytt frame för valet av extra ingredienser
+        self.current_frame = tk.Frame(self.root)
+        self.current_frame.pack()
+
+        # Skapa en rubrik för valet av extra ingredienser
+        extra_label = tk.Label(self.current_frame, text="Vill du lägga till extra ingredienser?", font=("Arial", 14))
+        extra_label.pack()
+
+        # Skapa knappar för att välja att lägga till extra ingredienser eller inte
+        add_extra_button = tk.Button(self.current_frame, text="Ja, lägg till extra ingredienser", command=lambda: self.extra_ingrediens())
+        add_extra_button.pack()
+
+        continue_button = tk.Button(self.current_frame, text="Nej, fortsätt utan extra ingredienser", command=lambda: self.continue_without_extra_ingredients())
+        continue_button.pack()
+
+    def extra_ingrediens(self):
+
+        self.clear_frame()
+
+        # Skapar ett nytt frame för val av ingredienser
+        self.current_frame = tk.Frame(self.root)
+        self.current_frame.pack()
+
+        # Skapa en rubrik för val av ingredienser
+        ingredients_label = tk.Label(self.current_frame, text="Välj dina extra ingredienser:", font=("Arial", 14))
+        ingredients_label.grid(row=0, column=0, columnspan=2)  # Placera rubriken i rutnätet
+
+        # Skapa en lista över valda ingredienser
+        extra_ingredienser = []
+
+        # Skapa en funktion för att spåra valda ingredienser
+        def toggle_selection(ingr_button, ingr):
+            if ingr_button.selected:
+                extra_ingredienser.append(ingr)
+            else:
+                extra_ingredienser.remove(ingr) if ingr in extra_ingredienser else None
+
+        # Skapa knappar för varje ingrediens med deras priser och organisera dem i ett rutnät
+        num_buttons_per_row = 4  # Antal knappar per rad
+
+        for i, ingredient in enumerate(self.salladbar_instance.ingredienser, start=1):
+            # Skapar en knapp för varje ingrediens
+            button_text = f"{ingredient.namn_ingrediens}: {ingredient.ingrediens_pris} kr"
+            button = ToggleButton(self.current_frame, ingr=ingredient, text=button_text)
+            button.grid(row=1 + i // num_buttons_per_row, column=i % num_buttons_per_row, padx=5, pady=5)  # Använd grid för att placera knapparna i rutnätet
+            button.config(command=lambda ingr_button=button, ingr=ingredient: (ingr_button.toggle(), toggle_selection(ingr_button, ingr)))
+
+        
+        # Skapa en knapp för att gå vidare till nästa steg
+        next_button = tk.Button(self.current_frame, text="Fortsätt", command=lambda: self.proceed_to_matching(extra_ingredienser))
+        next_button.grid(row=(len(self.salladbar_instance.ingredienser) // num_buttons_per_row) + 2, columnspan=num_buttons_per_row)  # Placera nästa knapp längst ner i rutnätet
+        
+
+    
 
 def main():
     root = tk.Tk()
