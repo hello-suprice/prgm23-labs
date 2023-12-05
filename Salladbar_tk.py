@@ -18,6 +18,13 @@ class SaladApp:
 
         self.current_frame = None  # Håller reda på aktuellt frame
         self.salladbar_instance = None
+
+        # skapa instanser av värderna för kvitto senare
+        self.bästa_match_tk = []
+        self.kompletterande_ingredienser_tk = []
+        self.valda_ingredienser_tk = []
+        self.extra_ingredienser_tk = []
+        self.totalpris_tk = 0
         
         # Skapa en hälsningstext
         self.greeting = tk.Label(root, text="Välkommen till SalladApp!", font=("Arial", 18))
@@ -70,6 +77,7 @@ class SaladApp:
 
     
     def bearbeta_salladval(self, salladbar):
+        self.clear_frame()
         # Skapar ett nytt frame för salladsbar-GUI
         self.current_frame = tk.Frame(self.root)
         self.current_frame.pack()
@@ -119,13 +127,13 @@ class SaladApp:
             button.grid(row=1 + i // num_buttons_per_row, column=i % num_buttons_per_row, padx=5, pady=5)  # Använd grid för att placera knapparna i rutnätet
             button.config(command=lambda ingr_button=button, ingr=ingredient: (ingr_button.toggle(), toggle_selection(ingr_button, ingr)))
 
-        
+        self.valda_ingredienser_tk = valda_ingredienser
         # Skapa en knapp för att gå vidare till nästa steg
-        next_button = tk.Button(self.current_frame, text="Fortsätt", command=lambda: self.proceed_to_matching(valda_ingredienser))
+        next_button = tk.Button(self.current_frame, text="Fortsätt", command=lambda: self.hitta_matchande_sallader_tk(valda_ingredienser))
         next_button.grid(row=(len(salladbar_instance.ingredienser) // num_buttons_per_row) + 2, columnspan=num_buttons_per_row)  # Placera nästa knapp längst ner i rutnätet
 
 
-    def proceed_to_matching(self, selected_ingredients):
+    def hitta_matchande_sallader_tk(self, selected_ingredients):
         
         self.clear_frame()
 
@@ -137,7 +145,7 @@ class SaladApp:
         matchning_label.pack()
 
         # Skapa en Text-komponent för att visa matchande sallader och totalpris
-        text_output = tk.Text(matchning_label, height=10, width=50)
+        text_output = tk.Text(matchning_label, height=10, width=60)
         text_output.pack()
 
         # Skapa en lista med namnen på de valda ingredienserna
@@ -184,7 +192,10 @@ class SaladApp:
 
             bästa_match_pris += valda_ingredienser_pris
             text_output.insert(tk.END, f"Totalkostnaden blir {bästa_match_pris} kr.\n")
-            return [bästa_match], None, bästa_match_pris
+
+            self.bästa_match_tk = [bästa_match]
+            self.kompletterande_ingredienser_tk = None
+            self.totalpris_tk = bästa_match_pris
 
         text_output.insert(tk.END, f"Bästa matchande sallad är {bästa_match.namn_sallad} med priset {bästa_match.sallad_pris} kr.\n")
         text_output.insert(tk.END, f"Du kan lägga till dessa ingredienser: {', '.join(bästa_match_kompletterande_ingredienser)}\n")
@@ -198,7 +209,10 @@ class SaladApp:
             nonlocal bästa_match_pris
             bästa_match_pris += valda_ingredienser_pris
             text_output.insert(tk.END, f"Totalkostnaden blir {bästa_match_pris} kr.\n")
-            return [bästa_match], bästa_match_kompletterande_ingredienser, bästa_match_pris
+
+            self.bästa_match_tk = [bästa_match]
+            self.kompletterande_ingredienser_tk = bästa_match_kompletterande_ingredienser
+            self.totalpris_tk = bästa_match_pris
 
         def cancel():
 
@@ -208,7 +222,10 @@ class SaladApp:
 
             bara_valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in selected_ingredients)
             text_output.insert(tk.END, f"Totalkostnaden blir {bara_valda_ingredienser_pris} kr.\n")
-            return [bästa_match], None, bara_valda_ingredienser_pris
+
+            self.bästa_match_tk = [bästa_match]
+            self.kompletterande_ingredienser_tk = None
+            self.totalpris_tk = bara_valda_ingredienser_pris
             
 
         def continue_extra():
@@ -238,7 +255,7 @@ class SaladApp:
         add_extra_button = tk.Button(self.current_frame, text="Ja, lägg till extra ingredienser", command=lambda: self.extra_ingrediens())
         add_extra_button.pack()
 
-        continue_button = tk.Button(self.current_frame, text="Nej, fortsätt utan extra ingredienser", command=lambda: self.continue_without_extra_ingredients())
+        continue_button = tk.Button(self.current_frame, text="Nej, fortsätt utan extra ingredienser", command=lambda: self.kvitto())
         continue_button.pack()
 
     def extra_ingrediens(self):
@@ -273,11 +290,85 @@ class SaladApp:
             button.grid(row=1 + i // num_buttons_per_row, column=i % num_buttons_per_row, padx=5, pady=5)  # Använd grid för att placera knapparna i rutnätet
             button.config(command=lambda ingr_button=button, ingr=ingredient: (ingr_button.toggle(), toggle_selection(ingr_button, ingr)))
 
-        
+        self.extra_ingredienser_tk = extra_ingredienser
         # Skapa en knapp för att gå vidare till nästa steg
-        next_button = tk.Button(self.current_frame, text="Fortsätt", command=lambda: self.proceed_to_matching(extra_ingredienser))
+        next_button = tk.Button(self.current_frame, text="Fortsätt", command=lambda: self.kvitto())
         next_button.grid(row=(len(self.salladbar_instance.ingredienser) // num_buttons_per_row) + 2, columnspan=num_buttons_per_row)  # Placera nästa knapp längst ner i rutnätet
         
+    def kvitto(self):
+        self.clear_frame()
+        
+        self.current_frame = tk.Frame(self.root)
+        self.current_frame.pack()
+
+        # Skapa en rubrik för matchning
+        kvitto_label = tk.Label(self.current_frame, text="Matchande Ingredienser", font=("Arial", 14))
+        kvitto_label.pack()
+
+        # Skapa en Text-komponent för att visa matchande sallader och totalpris
+        text_output = tk.Text(kvitto_label, height=20, width=80)
+        text_output.pack()
+
+        with open('kvitto.txt', 'w', encoding='utf-8') as f:
+            f.write("""
+                    HÄR ÄR DITT KVITTO:
+                    """)
+            print("""
+              HÄR ÄR DITT KVITTO: \n
+              """)
+            text_output.insert(tk.END, f"""
+                                HÄR ÄR DITT KVITTO: \n
+                               """)
+            
+            f.write("\nValda ingredienser:\n")
+            print("\nValda ingredienser:\n")
+            text_output.insert(tk.END, f"\nValda ingredienser:\n")
+            for ingrediens in self.valda_ingredienser_tk:
+                f.write(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr\n")
+                print(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
+                text_output.insert(tk.END, f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr\n")
+
+            if self.extra_ingredienser_tk:
+                f.write("\nExtra ingredienser:\n")
+                print("\nExtra ingredienser:")
+                text_output.insert(tk.END, f"\nExtra ingredienser:\n")
+
+                for ingrediens in self.extra_ingredienser_tk:
+                    f.write(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr\n")
+                    print(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr")
+                    text_output.insert(tk.END, f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr\n")
+                    self.totalpris_tk += ingrediens.ingrediens_pris
+            
+            f.write("\nBästa matchning:\n")
+            print("\nBästa matchning:")
+            text_output.insert(tk.END, f"\nBästa matchning:\n")
+            for sallad in self.bästa_match_tk:
+                f.write(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr\n")
+                print(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr")
+                text_output.insert(tk.END, f"{sallad.namn_sallad}: {sallad.sallad_pris} kr\n")
+            
+            if self.kompletterande_ingredienser_tk:
+                f.write("\nKompletterande ingredienser:\n")
+                print("\nKompletterande ingredienser:")
+                text_output.insert(tk.END, f"\nKompletterande ingredienser:\n")
+                for ingrediens in self.kompletterande_ingredienser_tk:
+                    f.write(f"{ingrediens}\n")
+                    print(ingrediens)
+                    text_output.insert(tk.END, f"{ingrediens}\n")
+            
+            f.write(f"\nTotalt pris: {self.totalpris_tk} kr\n")
+            print(f"\nTotal pris: {self.totalpris_tk} kr\n")
+            text_output.insert(tk.END, f"\nTotal pris: {self.totalpris_tk} kr\n")
+
+            ny_button = tk.Button(self.current_frame, text="Skapa en ny sallad", command=lambda: self.bearbeta_salladval(self.salladbar_instance))
+            ny_button.pack()
+
+            avsluta_button = tk.Button(self.current_frame, text="Avsluta program", command=self.root.quit)
+            avsluta_button.pack()
+
+            
+        
+
 
     
 

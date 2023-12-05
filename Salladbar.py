@@ -14,7 +14,7 @@ class Ingrediens:
 
 class Sallad:
     '''
-    Representerar en sallad med namn och pris
+    Representerar en sallad med namn, pris och dess ingredienser
     '''
     def __init__(self, namn_sallad, sallad_pris, ingredienser):
         self.namn_sallad = namn_sallad
@@ -271,6 +271,7 @@ class Salladbar():
                     print(ingrediens)
             
             f.write(f"\nTotalt pris: {total_pris} kr\n")
+            print(f"\nTotal pris: {total_pris} kr\n")
 
     def visa_huvudmeny(self):
         '''
@@ -315,7 +316,7 @@ class Salladbar():
                 Skriver ut kvittot för användarens val av sallad och sparar informationen i en fil
                 '''
                 filnamn = 'kvitto.txt'
-                self.skriv_kvittot_till_fil(filnamn, valda_ingredienser, extra_ingredienser, totalpris, matchningar, kompletterande_ingredienser)
+                self.skriv_kvittot_till_fil_terminal(filnamn, valda_ingredienser, extra_ingredienser, totalpris, matchningar, kompletterande_ingredienser)
                 
                 
             elif val.lower() == 'b':
