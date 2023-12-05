@@ -106,7 +106,7 @@ class Salladbar():
 
     def hitta_matchande_sallader(self, valda_ingredienser):
         '''
-        Hittar alla sallader som matchar de valda ingredienserna.
+        Hittar den salladen som matchar de valda ingredienserna.
         '''
         
         valda_ingredienser_namn = [ingrediens.namn_ingrediens for ingrediens in valda_ingredienser]
@@ -234,7 +234,7 @@ class Salladbar():
 
     def skriv_kvittot_till_fil_terminal(self, filnamn, valda_ingredienser, extra_ingredienser, total_pris, bästa_matchning, kompletterande_ingredienser=None):
         '''
-        Skriver ut ett kvitto med de valda ingredienserna, eventuella extra ingredienser, och det totala priset till en fil.
+        Skriver ut ett kvitto med de valda ingredienserna, eventuella extra ingredienser, och det totala priset till en fil samt terminalen
         '''
         with open(filnamn, 'w', encoding='utf-8') as f:
             f.write("""
@@ -259,6 +259,7 @@ class Salladbar():
                     total_pris += ingrediens.ingrediens_pris
             
             f.write("\nBästa matchning:\n")
+            print("\nBästa matchning:\n")
             for sallad in bästa_matchning:
                 f.write(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr\n")
                 print(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr")
@@ -295,9 +296,7 @@ class Salladbar():
     def bearbeta_salladval(self):
         '''
         Koordinerar de andra funktionerna för att bearbeta användarens salladval.
-        '''
-        
-        
+        ''' 
         while True:
             print("""
                 Välj ett alternativ från menyn nedan:
@@ -317,7 +316,6 @@ class Salladbar():
                 '''
                 filnamn = 'kvitto.txt'
                 self.skriv_kvittot_till_fil_terminal(filnamn, valda_ingredienser, extra_ingredienser, totalpris, matchningar, kompletterande_ingredienser)
-                
                 
             elif val.lower() == 'b':
                 self.rens_listor()
