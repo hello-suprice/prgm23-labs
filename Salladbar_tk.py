@@ -33,12 +33,11 @@ class SaladApp:
         Håller reda på aktuellt frame
         '''
         self.nuvarande_frame = None  
-        self.salladbar_instans = None
-        
         
         '''
         skapa instanser av värderna för kvitto senare
         '''
+        self.salladbar_instans = None
         self.bästa_match_tk = []
         self.kompletterande_ingredienser_tk = []
         self.valda_ingredienser_tk = []
@@ -300,7 +299,6 @@ class SaladApp:
         Visar alternativ för att välja extra ingredienser.
         '''
         self.rensa_skapa_frame()
-
 
         # Skapa en rubrik för valet av extra ingredienser
         extra_label = tk.Label(self.nuvarande_frame, text="Vill du lägga till extra ingredienser?", font=("Arial", 14))

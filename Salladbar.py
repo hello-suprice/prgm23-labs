@@ -259,7 +259,7 @@ class Salladbar():
                     total_pris += ingrediens.ingrediens_pris
             
             f.write("\nBästa matchning:\n")
-            print("\nBästa matchning:\n")
+            print("\nBästa matchning:")
             for sallad in bästa_matchning:
                 f.write(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr\n")
                 print(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr")
@@ -274,7 +274,7 @@ class Salladbar():
             f.write(f"\nTotalt pris: {total_pris} kr\n")
             print(f"\nTotal pris: {total_pris} kr\n")
 
-    def visa_huvudmeny(self):
+    def val_av_salladbar(self):
         '''
         Visar huvudmenyn och låter användaren välja vilken salladsbar de vill besöka.
         '''
@@ -284,7 +284,7 @@ class Salladbar():
         # Lägga till fler alternativ här om man har fler salladsbarer
 
         while True:
-            val = input()
+            val = input("Val: ")
             if val == '1':
                 return 'sallader_KallePåHörnet.json', 'ingredienser_KallePåHörnet.json'
             elif val == '2':
@@ -319,7 +319,7 @@ class Salladbar():
                 
             elif val.lower() == 'b':
                 self.rens_listor()
-                filnamn_sallader, filnamn_ingredienser = self.visa_huvudmeny()
+                filnamn_sallader, filnamn_ingredienser = self.val_av_salladbar()
                 self.läs_in_sallader(filnamn_sallader)
                 self.läs_in_ingredienser(filnamn_ingredienser)
 
@@ -334,7 +334,7 @@ def main():
     Huvudfunktionen som skapar en Salladbar-instans och bearbetar användarens salladval.
     '''
     salladbar = Salladbar()
-    filnamn_sallader, filnamn_ingredienser = salladbar.visa_huvudmeny()
+    filnamn_sallader, filnamn_ingredienser = salladbar.val_av_salladbar()
     salladbar.läs_in_sallader(filnamn_sallader)
     salladbar.läs_in_ingredienser(filnamn_ingredienser)
     salladbar.bearbeta_salladval()
