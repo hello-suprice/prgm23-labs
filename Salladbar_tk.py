@@ -1,5 +1,5 @@
 import tkinter as tk
-from Salladbar import *  # Importera allt från Salladbar.py
+from Salladbar import *  
 
 class ToggleButton(tk.Button):
     '''
@@ -17,7 +17,7 @@ class ToggleButton(tk.Button):
         self.selected = not self.selected
         self.config(relief=tk.SUNKEN if self.selected else tk.RAISED)
 
-class SaladApp:
+class SalladApp:
     '''
     Huvudapplikationsklassen för SalladApp.
     '''
@@ -44,7 +44,6 @@ class SaladApp:
         self.extra_ingredienser_tk = []
         self.totalpris_tk = 0
         
-
         self.hälsning = tk.Label(root, text="Välkommen till SalladApp!", font=("Arial", 18))
         self.hälsning.pack(pady=20)
         
@@ -69,15 +68,12 @@ class SaladApp:
         '''
         Visar huvudmenyn med knappar för att välja salladsbar.
         '''
-        
         self.nästa_knapp.destroy()
         self.rensa_skapa_frame()
 
-        
         välkomst_label = tk.Label(self.nuvarande_frame, text="Välkommen! Välj vilken salladsbar du vill besöka:")
         välkomst_label.pack()
 
-        # Skapar knappar för varje salladsbar
         def salladbar_val(choice):
             if choice == 1:
                 self.läs_in_salladbar('sallader_KallePåHörnet.json', 'ingredienser_KallePåHörnet.json')
@@ -96,8 +92,6 @@ class SaladApp:
         '''
         Läser in salladsbarinformation från filer och bearbetar vald sallad.
         '''
-        
-        # Skapa en instans av Salladbar-klassen och bearbeta salladval
         self.salladbar_instans = Salladbar()
         self.salladbar_instans.läs_in_sallader(sallader_file)
         self.salladbar_instans.läs_in_ingredienser(ingrediens_file)
@@ -108,14 +102,11 @@ class SaladApp:
         '''
         Hanterar val av salladbar och visar alternativ för användaren.
         '''
-
         self.rensa_skapa_frame()
         
-        # Skapa ett label för välkomstmeddelandet
         välkomst_label = tk.Label(self.nuvarande_frame, text="Välkommen!", font=("Arial", 18))
         välkomst_label.pack()
 
-        # Skapa knappar för att utföra olika val
         skappa_sallad_knapp = tk.Button(self.nuvarande_frame, text="Skapa en egen sallad", command=lambda: self.välj_ingredienser_tk(salladbar))
         skappa_sallad_knapp.pack()
 
@@ -131,32 +122,27 @@ class SaladApp:
         '''
         self.rensa_skapa_frame()
 
-        # Skapa en rubrik för val av ingredienser
         ingrediens_label = tk.Label(self.nuvarande_frame, text="Välj dina ingredienser:", font=("Arial", 14))
         ingrediens_label.grid(row=0, column=0, columnspan=2)  # Placera rubriken i rutnätet
 
-        # Skapa en lista över valda ingredienser
         valda_ingredienser = []
 
-        # Skapa en funktion för att spåra valda ingredienser
         def toggle_selection(ingr_knapp, ingr):
             if ingr_knapp.selected:
                 valda_ingredienser.append(ingr)
             else:
                 valda_ingredienser.remove(ingr) if ingr in valda_ingredienser else None
 
-        # Skapa knappar för varje ingrediens med deras priser och organisera dem i ett rutnät
         antal_knappar_per_rad = 4 
 
-        for i, ingredient in enumerate(salladbar_instans.ingredienser, start=1):
-            # Skapar en knapp för varje ingrediens
-            knapp_text = f"{ingredient.namn_ingrediens}: {ingredient.ingrediens_pris} kr"
-            knapp = ToggleButton(self.nuvarande_frame, ingr=ingredient, text=knapp_text)
-            knapp.grid(row=1 + i // antal_knappar_per_rad, column=i % antal_knappar_per_rad, padx=5, pady=5)  # Använd grid för att placera knapparna i rutnätet
-            knapp.config(command=lambda ingr_knapp=knapp, ingr=ingredient: (ingr_knapp.toggle(), toggle_selection(ingr_knapp, ingr)))
+        for i, ingrediens in enumerate(salladbar_instans.ingredienser, start=1):
+            knapp_text = f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr"
+            knapp = ToggleButton(self.nuvarande_frame, ingr=ingrediens, text=knapp_text)
+            knapp.grid(row=1 + i // antal_knappar_per_rad, column=i % antal_knappar_per_rad, padx=5, pady=5) 
+            knapp.config(command=lambda ingr_knapp=knapp, ingr=ingrediens: (ingr_knapp.toggle(), toggle_selection(ingr_knapp, ingr)))
 
         self.valda_ingredienser_tk = valda_ingredienser
-        # Skapa en knapp för att gå vidare till nästa steg
+
         nästa_knapp = tk.Button(self.nuvarande_frame, text="Fortsätt", command=lambda: self.hitta_matchande_sallader_tk(valda_ingredienser))
         nästa_knapp.grid(row=(len(salladbar_instans.ingredienser) // antal_knappar_per_rad) + 2, columnspan=antal_knappar_per_rad)  # Placera nästa knapp längst ner i rutnätet
 
@@ -171,11 +157,9 @@ class SaladApp:
         self.nuvarande_frame = tk.Frame(self.root)
         self.nuvarande_frame.pack()
 
-        # Skapa en rubrik för matchning
         matchning_label = tk.Label(self.nuvarande_frame, text="Matchande Ingredienser", font=("Arial", 14))
         matchning_label.pack()
 
-        # Skapa en Text-komponent för att visa matchande sallader och totalpris
         text_output = tk.Text(matchning_label, height=10, width=60)
         text_output.pack()
 
@@ -186,7 +170,6 @@ class SaladApp:
         '''
         perfekta_matchningar = [sallad for sallad in self.salladbar_instans.sallader if set(valda_ingredienser_namn) == set(sallad.ingredienser)]
         
-        # Visa matchande sallader i Text-komponenten
         if perfekta_matchningar:
             text_output.insert(tk.END, "Här är salladen som exakt matchar dina valda ingredienser:\n")
             for sallad in perfekta_matchningar:
@@ -299,11 +282,9 @@ class SaladApp:
         '''
         self.rensa_skapa_frame()
 
-        # Skapa en rubrik för valet av extra ingredienser
         extra_label = tk.Label(self.nuvarande_frame, text="Vill du lägga till extra ingredienser?", font=("Arial", 14))
         extra_label.pack()
 
-        # Skapa knappar för att välja att lägga till extra ingredienser eller inte
         add_extra_button = tk.Button(self.nuvarande_frame, text="Ja, lägg till extra ingredienser", command=lambda: self.extra_ingrediens())
         add_extra_button.pack()
 
@@ -314,35 +295,30 @@ class SaladApp:
         '''
         Hanterar val av extra ingredienser.
         '''
-
         self.rensa_skapa_frame()
 
-        # Skapa en rubrik för val av ingredienser
         ingrediens_label = tk.Label(self.nuvarande_frame, text="Välj dina extra ingredienser:", font=("Arial", 14))
         ingrediens_label.grid(row=0, column=0, columnspan=2)  # Placera rubriken i rutnätet
 
-        # Skapa en lista över valda ingredienser
         extra_ingredienser = []
 
-        # Skapa en funktion för att spåra valda ingredienser
         def toggle_selection(ingr_knapp, ingr):
             if ingr_knapp.selected:
                 extra_ingredienser.append(ingr)
             else:
                 extra_ingredienser.remove(ingr) if ingr in extra_ingredienser else None
 
-        # Skapa knappar för varje ingrediens med deras priser och organisera dem i ett rutnät
         antal_knappar_per_rad = 4  # Antal knappar per rad
 
-        for i, ingredient in enumerate(self.salladbar_instans.ingredienser, start=1):
-            # Skapar en knapp för varje ingrediens
-            knapp_text = f"{ingredient.namn_ingrediens}: {ingredient.ingrediens_pris} kr"
-            knapp = ToggleButton(self.nuvarande_frame, ingr=ingredient, text=knapp_text)
+        for i, ingrediens in enumerate(self.salladbar_instans.ingredienser, start=1):
+            
+            knapp_text = f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr"
+            knapp = ToggleButton(self.nuvarande_frame, ingr=ingrediens, text=knapp_text)
             knapp.grid(row=1 + i // antal_knappar_per_rad, column=i % antal_knappar_per_rad, padx=5, pady=5)  # Använd grid för att placera knapparna i rutnätet
-            knapp.config(command=lambda ingr_knapp=knapp, ingr=ingredient: (ingr_knapp.toggle(), toggle_selection(ingr_knapp, ingr)))
+            knapp.config(command=lambda ingr_knapp=knapp, ingr=ingrediens: (ingr_knapp.toggle(), toggle_selection(ingr_knapp, ingr)))
 
         self.extra_ingredienser_tk = extra_ingredienser
-        # Skapa en knapp för att gå vidare till nästa steg
+        
         nästa_knapp = tk.Button(self.nuvarande_frame, text="Fortsätt", command=lambda: self.kvitto())
         nästa_knapp.grid(row=(len(self.salladbar_instans.ingredienser) // antal_knappar_per_rad) + 2, columnspan=antal_knappar_per_rad)  # Placera nästa knapp längst ner i rutnätet
         
@@ -353,11 +329,9 @@ class SaladApp:
 
         self.rensa_skapa_frame()
 
-        # Skapa en rubrik för matchning
         kvitto_label = tk.Label(self.nuvarande_frame, text="Matchande Ingredienser", font=("Arial", 14))
         kvitto_label.pack()
 
-        # Skapa en Text-komponent för att visa matchande sallader och totalpris
         text_output = tk.Text(kvitto_label, height=20, width=80)
         text_output.pack()
 
@@ -392,23 +366,18 @@ class SaladApp:
                     self.totalpris_tk += ingrediens.ingrediens_pris
             
             f.write("\nBästa matchning:\n")
-            print("\nBästa matchning:")
             text_output.insert(tk.END, f"\nBästa matchning:\n")
             f.write(f"{self.bästa_match_tk.namn_sallad}: {self.bästa_match_tk.sallad_pris} kr\n")
-            print(f"{self.bästa_match_tk.namn_sallad}: {self.bästa_match_tk.sallad_pris} kr")
             text_output.insert(tk.END, f"{self.bästa_match_tk.namn_sallad}: {self.bästa_match_tk.sallad_pris} kr\n")
             
             if self.kompletterande_ingredienser_tk:
                 f.write("\nKompletterande ingredienser:\n")
-                print("\nKompletterande ingredienser:")
                 text_output.insert(tk.END, f"\nKompletterande ingredienser:\n")
                 for ingrediens in self.kompletterande_ingredienser_tk:
                     f.write(f"{ingrediens}\n")
-                    print(ingrediens)
                     text_output.insert(tk.END, f"{ingrediens}\n")
             
             f.write(f"\nTotalt pris: {self.totalpris_tk} kr\n")
-            print(f"\nTotal pris: {self.totalpris_tk} kr\n")
             text_output.insert(tk.END, f"\nTotal pris: {self.totalpris_tk} kr\n")
 
             ny_button = tk.Button(self.nuvarande_frame, text="Skapa en ny sallad", command=lambda: self.bearbeta_salladval(self.salladbar_instans))
@@ -419,7 +388,7 @@ class SaladApp:
 
 def main():
     root = tk.Tk()
-    app = SaladApp(root)
+    app = SalladApp(root)
     root.mainloop()
 
 if __name__ == "__main__":
