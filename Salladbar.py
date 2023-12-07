@@ -1,5 +1,4 @@
 import json 
-import sys
 
 class Ingrediens:
     '''
@@ -46,9 +45,11 @@ class Salladbar():
                     sallad_pris = sallad_data["sallad_pris"]
                     ingredienser = sallad_data["ingredienser"]
                     self.sallader.append(Sallad(namn_sallad, sallad_pris, ingredienser))
-        except FileNotFoundError:
-            print("Kunde inte hitta filen json filen för sallader. Kontrollera att filen finns och försök igen.")
-            sys.exit(1) 
+        except:
+            print("""Kunde inte hitta json filen för sallader. Kontrollera att filen finns 
+                  och att metoden läser in de viktiga argumenten, och försök igen.
+                  """)
+            exit(1) 
         
     def läs_in_ingredienser(self, filnamn_ingredienser):
         '''
@@ -61,9 +62,12 @@ class Salladbar():
                     namn_ingrediens = ingrediens_data["namn_ingrediens"]
                     ingreidens_pris = ingrediens_data["ingrediens_pris"]
                     self.ingredienser.append(Ingrediens(namn_ingrediens, ingreidens_pris))
-        except FileNotFoundError:
-            print("Kunde inte hitta json filen för ingredienser. Kontrollera att filen finns och försök igen.")
-            sys.exit(1)
+        except:
+            print("""
+                  Kunde inte hitta json filen för ingredienser. Kontrollera att filen finns 
+                  och att metoden läser in de viktiga argumenten, och försök igen.
+                  """)
+            exit(1)
 
     def rens_listor(self):
         '''
@@ -86,7 +90,7 @@ class Salladbar():
             valda_nummer = set(kontroll_nummer)
 
             if len(kontroll_nummer) != len(valda_nummer):
-                print("Ogiltigt val. Du har valt samma nummer flera gånger")
+                print("Ogiltigt val. Du har valt samma nummer flera gånger, försök igen:")
                 continue
             try: 
                 for nummer in valda_nummer:
@@ -94,12 +98,12 @@ class Salladbar():
                         raise ValueError
                 break
             except ValueError:
-                print("Ogiltigt inmatning. Ange numren för dina valda ingredienser, separerade med kommatecken.")
+                print(f"Ogiltigt inmatning {nummer}. Ange numren för dina valda ingredienser, separerade med kommatecken:")
         
         '''
         Skapar en lista av valda ingredienser baserat på användarens inmatning
         '''
-        valda_ingredienser = [ingrediens for i, ingrediens in enumerate(self.ingredienser, start=1) if str(i) in valda_nummer]
+        valda_ingredienser = [ingrediens for i, ingrediens in enumerate(self.ingredienser, start=1) if str(i) in valda_nummer]  #https://www.w3schools.com/python/python_lists_comprehension.asp
         
         return valda_ingredienser 
 
@@ -114,18 +118,16 @@ class Salladbar():
         '''
         Letar efter perfekta matchningar där ingredienserna exakt matchar salladens ingredienser
         '''
-        perfekta_matchningar = [sallad for sallad in self.sallader if set(valda_ingredienser_namn) == set(sallad.ingredienser)]
+        perfekt_matchning = [sallad for sallad in self.sallader if set(valda_ingredienser_namn) == set(sallad.ingredienser)]
         
-        if perfekta_matchningar:
+        if perfekt_matchning:
             print("\nHär är salladen som exakt matchar din valda ingredienser:")
-            for sallad in perfekta_matchningar:
+            for sallad in perfekt_matchning:
                 print(sallad)
-            total_pris = perfekta_matchningar[0].sallad_pris  
-            return perfekta_matchningar, None, total_pris
+            total_pris = perfekt_matchning[0].sallad_pris  
+            return perfekt_matchning, None, total_pris
         
-            '''
-            Om det inte finns perfekta matchningar
-            '''
+            
         else:
             '''
             Initialiserar variabler för att spåra bästa matchande salladen
@@ -139,7 +141,7 @@ class Salladbar():
             Loopar genom alla sallader för att hitta den bästa matchningen
             '''
             for sallad in self.sallader:
-                matchande_ingredienser = set(valda_ingredienser_namn).intersection(set(sallad.ingredienser))
+                matchande_ingredienser = set(valda_ingredienser_namn).intersection(set(sallad.ingredienser))  # https://www.w3schools.com/python/ref_set_intersection.asp 
                 kompletterande_ingredienser = set(sallad.ingredienser) - set(valda_ingredienser_namn)
                 
                 '''
@@ -163,7 +165,7 @@ class Salladbar():
                 
                 bästa_match_pris += valda_ingredienser_pris
                 print(f"Totalkostnaden blir {bästa_match_pris} kr.\n")
-                return [bästa_match], None, bästa_match_pris
+                return bästa_match, None, bästa_match_pris
             
             '''
             Om det finns kompletterande ingredienser att lägga till
@@ -179,11 +181,11 @@ class Salladbar():
                 if svar.lower() == 'ja':
                     bästa_match_pris += valda_ingredienser_pris
                     print(f"Totalkostnaden blir {bästa_match_pris} kr.\n")
-                    return [bästa_match], bästa_match_kompletterande_ingredienser, bästa_match_pris
+                    return bästa_match, bästa_match_kompletterande_ingredienser, bästa_match_pris
                 elif svar.lower() == 'nej':
                     bara_valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in valda_ingredienser)
                     print(f"Totalkostnaden blir {bara_valda_ingredienser_pris} kr.\n")
-                    return [bästa_match], None, bara_valda_ingredienser_pris
+                    return bästa_match, None, bara_valda_ingredienser_pris
                 else:
                     print("Skriv ett lämpligt svar ja eller nej!")
 
@@ -202,7 +204,7 @@ class Salladbar():
               separerade med kommatecken, eller skriv 'klar' om du inte vill ha 
               extra ingredienser: 
               """)
-        extra_ingredienser = []  
+        extra_ingredienser = []
         while True:
 
             val = input()
@@ -221,7 +223,7 @@ class Salladbar():
                 for nummer in valda_nummer:
                     if not nummer.isdigit() or not 1 <= int(nummer) <= len(self.ingredienser):
                         raise ValueError
-                extra_ingredienser = [ingrediens for i, ingrediens in enumerate(self.ingredienser, start=1) if str(i) in valda_nummer]
+                    extra_ingredienser = [ingrediens for i, ingrediens in enumerate(self.ingredienser, start=1) if str(i) in valda_nummer]
                 break
             except ValueError:
                 print(f"""
@@ -232,7 +234,7 @@ class Salladbar():
         
         return extra_ingredienser
 
-    def skriv_kvittot_till_fil_terminal(self, filnamn, valda_ingredienser, extra_ingredienser, total_pris, bästa_matchning, kompletterande_ingredienser=None):
+    def skriv_kvittot_till_fil_terminal(self, filnamn, valda_ingredienser, extra_ingredienser, total_pris, bästa_matchning, kompletterande_ingredienser):
         '''
         Skriver ut ett kvitto med de valda ingredienserna, eventuella extra ingredienser, och det totala priset till en fil samt terminalen
         '''
@@ -260,9 +262,8 @@ class Salladbar():
             
             f.write("\nBästa matchning:\n")
             print("\nBästa matchning:")
-            for sallad in bästa_matchning:
-                f.write(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr\n")
-                print(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr")
+            f.write(f"{bästa_matchning.namn_sallad}: {bästa_matchning.sallad_pris} kr\n")
+            print(f"{bästa_matchning.namn_sallad}: {bästa_matchning.sallad_pris} kr")
             
             if kompletterande_ingredienser:
                 f.write("\nKompletterande ingredienser:\n")

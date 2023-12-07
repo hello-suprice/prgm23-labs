@@ -96,7 +96,6 @@ class SaladApp:
         '''
         Läser in salladsbarinformation från filer och bearbetar vald sallad.
         '''
-        self.rensa_skapa_frame()
         
         # Skapa en instans av Salladbar-klassen och bearbeta salladval
         self.salladbar_instans = Salladbar()
@@ -162,7 +161,7 @@ class SaladApp:
         nästa_knapp.grid(row=(len(salladbar_instans.ingredienser) // antal_knappar_per_rad) + 2, columnspan=antal_knappar_per_rad)  # Placera nästa knapp längst ner i rutnätet
 
 
-    def hitta_matchande_sallader_tk(self, selected_ingrediens):
+    def hitta_matchande_sallader_tk(self, valda_ingredienser):
         '''
         Hittar den salladen som matchar de valda ingredienserna.
         '''
@@ -180,7 +179,7 @@ class SaladApp:
         text_output = tk.Text(matchning_label, height=10, width=60)
         text_output.pack()
 
-        valda_ingredienser_namn = [ingrediens.namn_ingrediens for ingrediens in selected_ingrediens]
+        valda_ingredienser_namn = [ingrediens.namn_ingrediens for ingrediens in valda_ingredienser]
 
         '''
         Letar efter perfekta matchningar där ingredienserna exakt matchar salladens ingredienser
@@ -226,7 +225,7 @@ class SaladApp:
         '''
         Beräknar priset för de valda ingredienserna som inte redan finns i den bästa matchande salladen
         '''
-        valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in selected_ingrediens if ingrediens.namn_ingrediens not in bästa_match.ingredienser)
+        valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in valda_ingredienser if ingrediens.namn_ingrediens not in bästa_match.ingredienser)
 
         if not bästa_match_kompletterande_ingredienser:
 
@@ -240,7 +239,7 @@ class SaladApp:
             bästa_match_pris += valda_ingredienser_pris
             text_output.insert(tk.END, f"Totalkostnaden blir {bästa_match_pris} kr.\n")
 
-            self.bästa_match_tk = [bästa_match]
+            self.bästa_match_tk = bästa_match
             self.kompletterande_ingredienser_tk = None
             self.totalpris_tk = bästa_match_pris
 
@@ -264,7 +263,7 @@ class SaladApp:
             bästa_match_pris += valda_ingredienser_pris
             text_output.insert(tk.END, f"Totalkostnaden blir {bästa_match_pris} kr.\n")
 
-            self.bästa_match_tk = [bästa_match]
+            self.bästa_match_tk = bästa_match
             self.kompletterande_ingredienser_tk = bästa_match_kompletterande_ingredienser
             self.totalpris_tk = bästa_match_pris
 
@@ -274,10 +273,10 @@ class SaladApp:
             lägg_inte_till_kompletterande_ingredienser_button.pack_forget()
             continue_button.pack()
 
-            bara_valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in selected_ingrediens)
+            bara_valda_ingredienser_pris = sum(ingrediens.ingrediens_pris for ingrediens in valda_ingredienser)
             text_output.insert(tk.END, f"Totalkostnaden blir {bara_valda_ingredienser_pris} kr.\n")
 
-            self.bästa_match_tk = [bästa_match]
+            self.bästa_match_tk = bästa_match
             self.kompletterande_ingredienser_tk = None
             self.totalpris_tk = bara_valda_ingredienser_pris
             
@@ -395,10 +394,9 @@ class SaladApp:
             f.write("\nBästa matchning:\n")
             print("\nBästa matchning:")
             text_output.insert(tk.END, f"\nBästa matchning:\n")
-            for sallad in self.bästa_match_tk:
-                f.write(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr\n")
-                print(f"{sallad.namn_sallad}: {sallad.sallad_pris} kr")
-                text_output.insert(tk.END, f"{sallad.namn_sallad}: {sallad.sallad_pris} kr\n")
+            f.write(f"{self.bästa_match_tk.namn_sallad}: {self.bästa_match_tk.sallad_pris} kr\n")
+            print(f"{self.bästa_match_tk.namn_sallad}: {self.bästa_match_tk.sallad_pris} kr")
+            text_output.insert(tk.END, f"{self.bästa_match_tk.namn_sallad}: {self.bästa_match_tk.sallad_pris} kr\n")
             
             if self.kompletterande_ingredienser_tk:
                 f.write("\nKompletterande ingredienser:\n")
