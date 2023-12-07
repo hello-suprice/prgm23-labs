@@ -5,8 +5,8 @@ class ToggleButton(tk.Button):
     '''
     En specialiserad knapp för att växla mellan vald och icke-vald status.
     '''
-    def __init__(self, master=None, ingr=None, **kwargs):
-        super().__init__(master, command=self.toggle, **kwargs)
+    def __init__(self, frame=None, ingr=None, **kwargs):
+        super().__init__(frame, command=self.toggle, **kwargs)
         self.ingr = ingr
         self.selected = False
     
@@ -298,7 +298,7 @@ class SalladApp:
         self.rensa_skapa_frame()
 
         ingrediens_label = tk.Label(self.nuvarande_frame, text="Välj dina extra ingredienser:", font=("Arial", 14))
-        ingrediens_label.grid(row=0, column=0, columnspan=2)  # Placera rubriken i rutnätet
+        ingrediens_label.grid(row=0, column=0, columnspan=2)  
 
         extra_ingredienser = []
 
@@ -308,19 +308,19 @@ class SalladApp:
             else:
                 extra_ingredienser.remove(ingr) if ingr in extra_ingredienser else None
 
-        antal_knappar_per_rad = 4  # Antal knappar per rad
+        antal_knappar_per_rad = 4 
 
         for i, ingrediens in enumerate(self.salladbar_instans.ingredienser, start=1):
             
             knapp_text = f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr"
             knapp = ToggleButton(self.nuvarande_frame, ingr=ingrediens, text=knapp_text)
-            knapp.grid(row=1 + i // antal_knappar_per_rad, column=i % antal_knappar_per_rad, padx=5, pady=5)  # Använd grid för att placera knapparna i rutnätet
+            knapp.grid(row=1 + i // antal_knappar_per_rad, column=i % antal_knappar_per_rad, padx=5, pady=5)  
             knapp.config(command=lambda ingr_knapp=knapp, ingr=ingrediens: (ingr_knapp.toggle(), toggle_selection(ingr_knapp, ingr)))
 
         self.extra_ingredienser_tk = extra_ingredienser
         
         nästa_knapp = tk.Button(self.nuvarande_frame, text="Fortsätt", command=lambda: self.kvitto())
-        nästa_knapp.grid(row=(len(self.salladbar_instans.ingredienser) // antal_knappar_per_rad) + 2, columnspan=antal_knappar_per_rad)  # Placera nästa knapp längst ner i rutnätet
+        nästa_knapp.grid(row=(len(self.salladbar_instans.ingredienser) // antal_knappar_per_rad) + 2, columnspan=antal_knappar_per_rad)  
         
     def kvitto(self):
         '''
@@ -339,15 +339,11 @@ class SalladApp:
             f.write("""
                     HÄR ÄR DITT KVITTO:
                     """)
-            print("""
-              HÄR ÄR DITT KVITTO: \n
-              """)
             text_output.insert(tk.END, f"""
                                 HÄR ÄR DITT KVITTO: \n
                                """)
             
             f.write("\nValda ingredienser:\n")
-            print("\nValda ingredienser:\n")
             text_output.insert(tk.END, f"\nValda ingredienser:\n")
             for ingrediens in self.valda_ingredienser_tk:
                 f.write(f"{ingrediens.namn_ingrediens}: {ingrediens.ingrediens_pris} kr\n")
@@ -356,7 +352,6 @@ class SalladApp:
 
             if self.extra_ingredienser_tk:
                 f.write("\nExtra ingredienser:\n")
-                print("\nExtra ingredienser:")
                 text_output.insert(tk.END, f"\nExtra ingredienser:\n")
 
                 for ingrediens in self.extra_ingredienser_tk:
