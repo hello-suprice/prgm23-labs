@@ -98,7 +98,7 @@ class SalladApp:
         self.bearbeta_salladval(self.salladbar_instans)
 
     
-    def bearbeta_salladval(self, salladbar):
+    def bearbeta_salladval(self, salladbar_instans):
         '''
         Hanterar val av salladbar och visar alternativ för användaren.
         '''
@@ -107,7 +107,7 @@ class SalladApp:
         välkomst_label = tk.Label(self.nuvarande_frame, text="Välkommen!", font=("Arial", 18))
         välkomst_label.pack()
 
-        skappa_sallad_knapp = tk.Button(self.nuvarande_frame, text="Skapa en egen sallad", command=lambda: self.välj_ingredienser_tk(salladbar))
+        skappa_sallad_knapp = tk.Button(self.nuvarande_frame, text="Skapa en egen sallad", command=lambda: self.välj_ingredienser_tk(salladbar_instans))
         skappa_sallad_knapp.pack()
 
         byt_salladbar_knapp = tk.Button(self.nuvarande_frame, text="Byta salladbar", command=self.visa_huvudmenyn)
@@ -123,7 +123,7 @@ class SalladApp:
         self.rensa_skapa_frame()
 
         ingrediens_label = tk.Label(self.nuvarande_frame, text="Välj dina ingredienser:", font=("Arial", 14))
-        ingrediens_label.grid(row=0, column=0, columnspan=2)  # Placera rubriken i rutnätet
+        ingrediens_label.grid(row=0, column=0, columnspan=2)  
 
         valda_ingredienser = []
 
@@ -144,7 +144,7 @@ class SalladApp:
         self.valda_ingredienser_tk = valda_ingredienser
 
         nästa_knapp = tk.Button(self.nuvarande_frame, text="Fortsätt", command=lambda: self.hitta_matchande_sallader_tk(valda_ingredienser))
-        nästa_knapp.grid(row=(len(salladbar_instans.ingredienser) // antal_knappar_per_rad) + 2, columnspan=antal_knappar_per_rad)  # Placera nästa knapp längst ner i rutnätet
+        nästa_knapp.grid(row=(len(salladbar_instans.ingredienser) // antal_knappar_per_rad) + 2, columnspan=4)  
 
 
     def hitta_matchande_sallader_tk(self, valda_ingredienser):
@@ -174,7 +174,7 @@ class SalladApp:
             text_output.insert(tk.END, "Här är salladen som exakt matchar dina valda ingredienser:\n")
             for sallad in perfekta_matchningar:
                 text_output.insert(tk.END, f"{sallad.namn_sallad}, Pris: {sallad.sallad_pris} kr\n")
-            total_pris = perfekta_matchningar[0].sallad_pris  # Priset för den perfekta matchningen
+            total_pris = perfekta_matchningar[0].sallad_pris  
             text_output.insert(tk.END, f"Totalpris för sallad: {total_pris} kr")
 
             '''
